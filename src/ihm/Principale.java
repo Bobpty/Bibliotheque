@@ -28,6 +28,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
 import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import javax.swing.ImageIcon;
+import java.awt.Button;
+import java.awt.Label;
 
 public class Principale {
 
@@ -88,6 +94,7 @@ public class Principale {
 		mnBibliotheque.add(mntmModifierUneBibliotheque);
 		
 		JMenuItem mntmQuitter = new JMenuItem("Quitter");
+		mntmQuitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 		mnBibliotheque.add(mntmQuitter);
 		
 		JMenu mnMedia = new JMenu("Media");
@@ -103,6 +110,7 @@ public class Principale {
 		mnMedia.add(mntmRestituerUnMedium);
 		
 		JMenuItem mntmRechercher = new JMenuItem("Rechercher");
+		mntmRechercher.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
 		mnMedia.add(mntmRechercher);
 		
 		JMenu mnDivers = new JMenu("Divers");
@@ -112,6 +120,7 @@ public class Principale {
 		mnDivers.add(mntmLocationEnRetard);
 		
 		JMenuItem mntmInventaire = new JMenuItem("Inventaire");
+		mntmInventaire.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_MASK));
 		mnDivers.add(mntmInventaire);
 		
 		JPanel panelMilieu = new JPanel();
@@ -126,9 +135,28 @@ public class Principale {
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_14.add(panel_7);
+		panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_7.add(scrollPane_1);
+		
+		Label label = new Label("New label");
+		panel_7.add(label);
+		
+		Label label_1 = new Label("New label");
+		panel_7.add(label_1);
+		
+		Label label_2 = new Label("New label");
+		panel_7.add(label_2);
+		
+		Label label_3 = new Label("New label");
+		panel_7.add(label_3);
+		
+		Label label_4 = new Label("New label");
+		panel_7.add(label_4);
+		
+		Label label_5 = new Label("New label");
+		panel_7.add(label_5);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
