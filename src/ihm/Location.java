@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.FlowLayout;
 
 public class Location {
 
@@ -60,8 +61,10 @@ public class Location {
 		
 		JPanel panel = new JPanel();
 		frmLoaction.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblTitre = new JLabel("Titre:");
+		lblTitre.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblTitre);
 		
 		JList listTitre = new JList();
@@ -70,6 +73,7 @@ public class Location {
 		panel.add(listTitre);
 		
 		JLabel lblNomDuLoueur = new JLabel("Nom du loueur");
+		lblNomDuLoueur.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblNomDuLoueur);
 		
 		txtNomDuLoueur = new JTextField();
@@ -78,6 +82,7 @@ public class Location {
 		txtNomDuLoueur.setColumns(10);
 		
 		JLabel lblAdresse = new JLabel("Adresse:");
+		lblAdresse.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblAdresse);
 		
 		txtAdresse = new JTextField();
@@ -86,6 +91,7 @@ public class Location {
 		txtAdresse.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblEmail);
 		
 		txtEmail = new JTextField();
@@ -94,6 +100,7 @@ public class Location {
 		txtEmail.setColumns(10);
 		
 		JLabel lblDateDeLocation = new JLabel("Date de location:");
+		lblDateDeLocation.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblDateDeLocation);
 		
 		txtDateDeLocation = new JTextField();
@@ -102,6 +109,7 @@ public class Location {
 		txtDateDeLocation.setColumns(10);
 		
 		JLabel lblDateDeRestitution = new JLabel("Date de restitution:");
+		lblDateDeRestitution.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblDateDeRestitution);
 		
 		txtDateDeRestitution = new JTextField();
@@ -110,6 +118,7 @@ public class Location {
 		txtDateDeRestitution.setColumns(10);
 		
 		JLabel lblCommentaire = new JLabel("Commentaire:");
+		lblCommentaire.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblCommentaire);
 		
 		JTextArea txtrCommentaire = new JTextArea();
@@ -119,6 +128,7 @@ public class Location {
 		panel.add(txtrCommentaire);
 		
 		JButton btnEnregistrer = new JButton("Enregistrer");
+		btnEnregistrer.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEnregistrer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
