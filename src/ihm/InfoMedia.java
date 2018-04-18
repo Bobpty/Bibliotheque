@@ -16,6 +16,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class InfoMedia {
 
@@ -202,6 +205,14 @@ public class InfoMedia {
 		tableLocation.setCellSelectionEnabled(true);
 		tableLocation.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelTableau.add(tableLocation);
+		
+		JButton btnEnregistrer = new JButton("Enregistrer");
+		btnEnregistrer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+		});
+		panelTableau.add(btnEnregistrer);
 	}
 
 }
