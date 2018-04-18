@@ -1,0 +1,98 @@
+package ihm;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class InfoBiblio {
+
+	private JFrame frmInformationsSurLa;
+	private JTextField txtNom;
+	private JTextField txtAdresse;
+	private JTextField txtNombreDarmoires;
+	private JTextField txtNombreDeRangees;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					InfoBiblio window = new InfoBiblio();
+					window.frmInformationsSurLa.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public InfoBiblio() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmInformationsSurLa = new JFrame();
+		frmInformationsSurLa.setTitle("Informations sur la biblioth\u00E8que");
+		frmInformationsSurLa.setBounds(100, 100, 637, 498);
+		frmInformationsSurLa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel panel = new JPanel();
+		frmInformationsSurLa.getContentPane().add(panel, BorderLayout.CENTER);
+		
+		JLabel lblNom = new JLabel("Nom:");
+		panel.add(lblNom);
+		
+		txtNom = new JTextField();
+		lblNom.setLabelFor(txtNom);
+		panel.add(txtNom);
+		txtNom.setColumns(10);
+		
+		JLabel lblAdresse = new JLabel("Adresse:");
+		panel.add(lblAdresse);
+		
+		txtAdresse = new JTextField();
+		lblAdresse.setLabelFor(txtAdresse);
+		panel.add(txtAdresse);
+		txtAdresse.setColumns(10);
+		
+		JLabel lblNombreDarmoires = new JLabel("Nombre d'armoires:");
+		panel.add(lblNombreDarmoires);
+		
+		txtNombreDarmoires = new JTextField();
+		lblNombreDarmoires.setLabelFor(txtNombreDarmoires);
+		panel.add(txtNombreDarmoires);
+		txtNombreDarmoires.setColumns(10);
+		
+		JLabel lblNombreDeRangees = new JLabel("Nombre de rang\u00E9es:");
+		panel.add(lblNombreDeRangees);
+		
+		txtNombreDeRangees = new JTextField();
+		lblNombreDeRangees.setLabelFor(txtNombreDeRangees);
+		panel.add(txtNombreDeRangees);
+		txtNombreDeRangees.setColumns(10);
+		
+		JButton btnEnregistrer = new JButton("Enregistrer");
+		btnEnregistrer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		panel.add(btnEnregistrer);
+	}
+
+}
