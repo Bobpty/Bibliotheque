@@ -137,9 +137,6 @@ public class Principale {
 		panel_14.add(panel_7);
 		panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		panel_7.add(scrollPane_1);
-		
 		Label label = new Label("New label");
 		panel_7.add(label);
 		
@@ -162,36 +159,21 @@ public class Principale {
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_14.add(panel);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane);
-		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_14.add(panel_2);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		panel_2.add(scrollPane_2);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_14.add(panel_3);
 		
-		JScrollPane scrollPane_3 = new JScrollPane();
-		panel_3.add(scrollPane_3);
-		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_14.add(panel_4);
 		
-		JScrollPane scrollPane_4 = new JScrollPane();
-		panel_4.add(scrollPane_4);
-		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_14.add(panel_5);
-		
-		JScrollPane scrollPane_5 = new JScrollPane();
-		panel_5.add(scrollPane_5);
 		
 		JPanel panel_13 = new JPanel();
 		panelMilieu.add(panel_13);
@@ -201,43 +183,25 @@ public class Principale {
 		JPanel panel_12 = new JPanel();
 		panel_13.add(panel_12);
 		
-		JScrollPane scrollPane_6 = new JScrollPane();
-		panel_12.add(scrollPane_6);
-		
 		JPanel panel_11 = new JPanel();
 		panel_11.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_13.add(panel_11);
-		
-		JScrollPane scrollPane_7 = new JScrollPane();
-		panel_11.add(scrollPane_7);
 		
 		JPanel panel_10 = new JPanel();
 		panel_10.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_13.add(panel_10);
 		
-		JScrollPane scrollPane_8 = new JScrollPane();
-		panel_10.add(scrollPane_8);
-		
 		JPanel panel_9 = new JPanel();
 		panel_9.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_13.add(panel_9);
-		
-		JScrollPane scrollPane_9 = new JScrollPane();
-		panel_9.add(scrollPane_9);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_13.add(panel_8);
 		
-		JScrollPane scrollPane_10 = new JScrollPane();
-		panel_8.add(scrollPane_10);
-		
 		JPanel panel_6 = new JPanel();
 		panel_6.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_13.add(panel_6);
-		
-		JScrollPane scrollPane_11 = new JScrollPane();
-		panel_6.add(scrollPane_11);
 	}
 
 }
