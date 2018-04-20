@@ -45,7 +45,6 @@ public class Principale implements ActionListener{
 	
 	private ArrayList<JPanel> listArmoire = new ArrayList<JPanel>();
 	private JFrame frmBibliotheque;
-	static Bibliotheque biblio;
 
 	/**
 	 * Create the application.

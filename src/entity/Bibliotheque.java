@@ -14,8 +14,14 @@ public class Bibliotheque
         this.adresse = adresse;
         this.nombreRangees = nombreRangees;
     }
+    
 
-    public int getNumBibliotheque()
+    public Bibliotheque() {
+		super();
+	}
+
+
+	public int getNumBibliotheque()
     {
         return numBibliotheque;
     }

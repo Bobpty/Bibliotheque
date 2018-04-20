@@ -11,6 +11,11 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * 
+ * <p>Cette classe permet de d'obtenir les informations sur la bibliothèque et en insérer une nouvelle.
+ *
+ */
 public class InfoBiblio {
 
 	private JFrame frmInformationsSurLaBibliotheque;

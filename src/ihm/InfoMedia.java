@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import dao.Dao;
 import dao.DaoArmoire;
 import entity.Armoire;
+import entity.Bibliotheque;
 import util.DBUtil;
 
 import javax.swing.JScrollPane;
@@ -42,7 +43,10 @@ public class InfoMedia {
 	private JTable tableLocation;
 	
 	ArrayList<Armoire> listNumArmoire =  new ArrayList<Armoire>();
+	ArrayList<Armoire> listArmoire = new ArrayList<>();
 	DaoArmoire daoArmoire = new DaoArmoire();
+	Bibliotheque biblio = new Bibliotheque();
+
 
 	/**
 	 * Create the application.
@@ -147,8 +151,8 @@ public class InfoMedia {
 		
 		JLabel lblStockerDansArmoire = new JLabel("Stocker dans armoire:");
 		panelStockerDansArmoire.add(lblStockerDansArmoire);
-		
-		listNumArmoire = daoArmoire.findArmoiresParBibliotheque(Principale.biblio);
+		listArmoire = daoArmoire.findAll();
+		listNumArmoire = daoArmoire.findArmoiresParBibliotheque(listArmoire.get(0).getBibliotheque());
 		
 		Vector<String> vector = new Vector<>();
 		

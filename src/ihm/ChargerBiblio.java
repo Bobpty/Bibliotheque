@@ -24,7 +24,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
-
+/**
+ * 
+ * <p>Cette classe permet de charger une bibliothèque
+ *
+ */
 public class ChargerBiblio {
 
 	private JFrame frmChargerUneBibliotheque;
@@ -73,6 +77,7 @@ public class ChargerBiblio {
 		btnCharger.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 			}
 		});
 		panel.add(btnCharger);
