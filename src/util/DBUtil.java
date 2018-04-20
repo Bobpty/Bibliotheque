@@ -20,12 +20,33 @@ import java.util.ArrayList;
  */
 public class DBUtil {
 
-	public static Connection setConnection(String serverIP) throws SQLException {
-		return DriverManager.getConnection("jdbc:mysql://"+serverIP+":3306/", "root", "");
+	public static Connection setConnection(String serverIP) 
+	{
+		try 
+		{
+			return DriverManager.getConnection("jdbc:mysql://"+serverIP+":3306/", "root", "");
+		} 
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
-	public static Connection setConnection(String serverIP, String dbName) throws SQLException {
-		return DriverManager.getConnection("jdbc:mysql://"+serverIP+":3306/"+dbName, "root", "");
+	public static Connection setConnection(String serverIP, String dbName)
+	{
+		try
+		{
+			return DriverManager.getConnection("jdbc:mysql://"+serverIP+":3306/"+dbName, "root", "");
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public static ArrayList<String> getSchemasList(Connection connect) throws SQLException {
