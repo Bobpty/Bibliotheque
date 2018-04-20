@@ -1,6 +1,3 @@
-/**
- * 
- */
 package util;
 
 import java.sql.Connection;
@@ -14,10 +11,6 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-/**
- * @author Paul Payraudeau
- *
- */
 public class DBUtil {
 
 	public static Connection setConnection(String serverIP) throws SQLException 
@@ -28,7 +21,6 @@ public class DBUtil {
 		} 
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			throw new SQLException("Erreur: " + e.getMessage());
 		}
 	}
