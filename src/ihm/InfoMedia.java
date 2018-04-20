@@ -17,6 +17,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dao.Dao;
+import dao.DaoArmoire;
+import entity.Armoire;
 import util.DBUtil;
 
 import javax.swing.JScrollPane;
@@ -26,6 +28,7 @@ import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class InfoMedia {
 
@@ -37,6 +40,9 @@ public class InfoMedia {
 	private JTextField txtPrixHt;
 	private JTextField txtDureeDeLocation;
 	private JTable tableLocation;
+	
+	ArrayList<Armoire> listNumArmoire =  new ArrayList<Armoire>();
+	DaoArmoire daoArmoire = new DaoArmoire();
 
 	/**
 	 * Create the application.
@@ -142,8 +148,16 @@ public class InfoMedia {
 		JLabel lblStockerDansArmoire = new JLabel("Stocker dans armoire:");
 		panelStockerDansArmoire.add(lblStockerDansArmoire);
 		
+		listNumArmoire = daoArmoire.findArmoiresParBibliotheque(Principale.biblio);
 		
-		JComboBox<String> list = new JComboBox<>();
+		Vector<String> vector = new Vector<>();
+		
+		for(int i = 0; i < listNumArmoire.size(); i++)
+		{
+			vector.add(String.valueOf(listNumArmoire.get(i).getNumArmoire()));
+		}
+		
+		JComboBox<String> list = new JComboBox<>(vector);
 		panelStockerDansArmoire.add(list);
 		
 		JScrollPane scrollPaneTableau = new JScrollPane();
@@ -156,6 +170,7 @@ public class InfoMedia {
 		JLabel lblLocations = new JLabel("Locations:");
 		panelTableau.add(lblLocations);
 		
+		listNumArmoire = (ArrayList<Armoire>) daoArmoire.findAll();
 		
 		String  donnees[][] = new String[45][5];
 		String ligne[] = {"John", "15 avenue de ville Paris", "01/01/2001", "01/02/2001", "blahblah"};

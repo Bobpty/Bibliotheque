@@ -9,13 +9,20 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+
+import dao.DaoMedium;
+import entity.Medium;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.awt.FlowLayout;
 
 public class Location {
@@ -26,7 +33,8 @@ public class Location {
 	private JTextField txtEmail;
 	private JTextField txtDateDeLocation;
 	private JTextField txtDateDeRestitution;
-
+	ArrayList<Medium> listMedia = new ArrayList<Medium>();
+	DaoMedium daoMedium = new DaoMedium();
 	/**
 	 * Create the application.
 	 */
@@ -52,9 +60,16 @@ public class Location {
 		lblTitre.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblTitre);
 		
-		JList listTitre = new JList();
+		listMedia = (ArrayList<Medium>) daoMedium.findAll();
+		
+		Vector<String> vector = new Vector<>();
+		for(int i = 0; i < listMedia.size(); i++ )
+		{
+			vector.add(listMedia.get(i).getTitre());
+		}
+		
+		JComboBox<String> listTitre = new JComboBox<>(vector);
 		lblTitre.setLabelFor(listTitre);
-		listTitre.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panel.add(listTitre);
 		
 		JLabel lblNomDuLoueur = new JLabel("Nom du loueur");

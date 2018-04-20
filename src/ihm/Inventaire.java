@@ -18,7 +18,6 @@ import entity.Medium;
 import util.DBUtil;
 
 import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
 
 public class Inventaire {
 
@@ -27,7 +26,6 @@ public class Inventaire {
 	ArrayList<Medium> listMedia = new ArrayList<Medium>();
 	DaoMedium daoMedium = new DaoMedium();
 	private Medium medium;
-	private JComboBox comboBox;
 	
 	/**
 	 * Create the application.

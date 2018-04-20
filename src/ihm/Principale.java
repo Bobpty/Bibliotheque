@@ -24,6 +24,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.sun.javafx.font.Disposer;
 
+import entity.Bibliotheque;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 import javax.swing.border.BevelBorder;
@@ -44,6 +45,7 @@ public class Principale implements ActionListener{
 	
 	private ArrayList<JPanel> listArmoire = new ArrayList<JPanel>();
 	private JFrame frmBibliotheque;
+	static Bibliotheque biblio;
 
 	/**
 	 * Create the application.
