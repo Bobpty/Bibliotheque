@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class DBUtil {
 
-	public static Connection setConnection(String serverIP) 
+	public static Connection setConnection(String serverIP) throws SQLException 
 	{
 		try 
 		{
@@ -29,13 +29,11 @@ public class DBUtil {
 		catch (SQLException e) 
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SQLException("Erreur: " + e.getMessage());
 		}
-		
-		return null;
 	}
 	
-	public static Connection setConnection(String serverIP, String dbName)
+	public static Connection setConnection(String serverIP, String dbName) throws SQLException
 	{
 		try
 		{
@@ -43,10 +41,8 @@ public class DBUtil {
 		}
 		catch (SQLException e)
 		{
-			e.printStackTrace();
+			throw new SQLException("Erreur: " + e.getMessage());
 		}
-		
-		return null;
 	}
 	
 	public static ArrayList<String> getSchemasList(Connection connect) throws SQLException {
