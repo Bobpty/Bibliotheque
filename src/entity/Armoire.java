@@ -6,7 +6,7 @@ public class Armoire
     private String nomArmoire;
     private Bibliotheque bibliotheque;
 
-    public Armoire(int numArmoire, String nomArmoire, Bibliotheque bibliotheque)
+	public Armoire(int numArmoire, String nomArmoire, Bibliotheque bibliotheque)
     {
         this.numArmoire = numArmoire;
         this.nomArmoire = nomArmoire;
@@ -27,4 +27,19 @@ public class Armoire
     {
         this.nomArmoire = nomArmoire;
     }
+    
+    public Bibliotheque getBibliotheque()
+    {
+		return bibliotheque;
+	}
+
+	public void setBibliotheque(Bibliotheque bibliotheque)
+	{
+		this.bibliotheque = bibliotheque;
+	}
+
+	public void setNumArmoire(int numArmoire)
+	{
+		this.numArmoire = numArmoire;
+	}
 }

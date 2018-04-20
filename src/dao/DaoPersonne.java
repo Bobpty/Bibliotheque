@@ -81,16 +81,16 @@ public class DaoPersonne extends Dao<Personne>
                                                                           "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
-            sql.setString(i++, personne.Nom);
-            sql.setString(i++, personne.Prenom);
-            sql.setString(i++, personne.Adresse);
-            sql.setString(i++, personne.Mail);
+            sql.setString(i++, personne.getNom());
+            sql.setString(i++, personne.getPrenom());
+            sql.setString(i++, personne.getAdresse());
+            sql.setString(i++, personne.getMail());
             sql.executeUpdate();
 
             ResultSet keys = sql.getGeneratedKeys();
             keys.next();
-            personne.IDpersonne = keys.getInt(1);
-            personne = find(personne.IDpersonne);
+            //personne.IDpersonne = keys.getInt(1);
+            personne = find(personne.getIDpersonne());
         }
         catch (SQLException e)
         {
@@ -111,11 +111,11 @@ public class DaoPersonne extends Dao<Personne>
                                                                         "WHERE IDpersonne = ?");
 
             int i = 1;
-            sql.setString(i++, personne.Nom);
-            sql.setString(i++, personne.Prenom);
-            sql.setString(i++, personne.Adresse);
-            sql.setString(i++, personne.Mail);
-            sql.setInt(i++, personne.IDpersonne);
+            sql.setString(i++, personne.getNom());
+            sql.setString(i++, personne.getPrenom());
+            sql.setString(i++, personne.getAdresse());
+            sql.setString(i++, personne.getMail());
+            sql.setInt(i++, personne.getIDpersonne());
 
             sql.executeUpdate();
         }
@@ -134,11 +134,11 @@ public class DaoPersonne extends Dao<Personne>
         try
         {
             PreparedStatement sql = connexion.prepareStatement("DELETE FROM louer WHERE IDpersonne = ?");
-            sql.setInt(1, personne.IDpersonne);
+            sql.setInt(1, personne.getIDpersonne());
             sql.executeUpdate();
 
             PreparedStatement statement = connexion.prepareStatement("DELETE FROM Personne WHERE id = ?");
-            statement.setInt(1, personne.IDpersonne);
+            statement.setInt(1, personne.getIDpersonne());
             statement.executeUpdate();
 
             return true;

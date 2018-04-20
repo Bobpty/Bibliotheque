@@ -1,14 +1,16 @@
 package dao;
 
-import entity.Bibliotheque;
 import entity.Medium;
+import entity.Personne;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class DaoMedium extends Dao<Medium>
 {
@@ -46,7 +48,7 @@ public class DaoMedium extends Dao<Medium>
 
         return medium;
     }
-  
+
     @Override
     public List<Medium> findAll()
     {
@@ -126,21 +128,21 @@ public class DaoMedium extends Dao<Medium>
                                                                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             int i = 1; //Permet d'itÃ©rer plus facilement sur chacun des paramÃ¨tres
-            sql.setString(i++, medium.Titre);
-            sql.setString(i++, medium.InterRealAuteur);
-            sql.setString(i++, medium.Contenant);
-            sql.setString(i++, medium.DateParution);
-            sql.setString(i++, medium.DateStockage);
-            sql.setString(i++, medium.Prix);
-            sql.setString(i++, medium.DureeLocation);
-            sql.setString(i++, medium.Type);
-            sql.setString(i++, medium.armoire.NumArmoire);
+            sql.setString(i++, medium.getTitre());
+            sql.setString(i++, medium.getInterRealAuteur());
+            sql.setInt(i++, medium.getContenant());
+            sql.setDate(i++, medium.getDateParution());
+            sql.setDate(i++, medium.getDateStockage());
+            sql.setFloat(i++, medium.getPrix());
+            sql.setInt(i++, medium.getDureeLocation());
+            sql.setString(i++, medium.getType());
+            sql.setInt(i++, medium.getArmoire().getNumArmoire());
             sql.executeUpdate();
 
             ResultSet keys = sql.getGeneratedKeys();
             keys.next();
-            medium.NumMedium = keys.getInt(1);
-            medium = find(medium.NumMedium);
+            //medium.NumMedium = keys.getInt(1);
+            medium = find(medium.getNumMedia());
         }
         catch (SQLException e)
         {
@@ -168,15 +170,15 @@ public class DaoMedium extends Dao<Medium>
                                                                         "WHERE NumMedium = ?");
 
             int i = 1;
-            sql.setString(i++, medium.Titre);
-            sql.setString(i++, medium.InterRealAuteur);
-            sql.setInt(i++, medium.Contenant);
-            sql.setDate(i++, medium.DateParution);
-            sql.setDate(i++, medium.DateStockage);
-            sql.setFloat(i++, medium.Prix);
-            sql.setInt(i++, medium.DureeLocation);
-            sql.setString(i++, medium.Type);
-            sql.setInt(i++, medium.NumMedium);
+            sql.setString(i++, medium.getTitre());
+            sql.setString(i++, medium.getInterRealAuteur());
+            sql.setInt(i++, medium.getContenant());
+            sql.setDate(i++, medium.getDateParution());
+            sql.setDate(i++, medium.getDateStockage());
+            sql.setFloat(i++, medium.getPrix());
+            sql.setInt(i++, medium.getDureeLocation());
+            sql.setString(i++, medium.getType());
+            sql.setInt(i++, medium.getNumMedia());
 
             sql.executeUpdate();
         }
@@ -194,8 +196,8 @@ public class DaoMedium extends Dao<Medium>
     {
         try
         {
-            PreparedStatement sql = connexion.prepareStatement("DELETE FROM armoire WHERE NumArmoire = ?");
-            sql.setInt(1, armoire.NumArmoire);
+            PreparedStatement sql = connexion.prepareStatement("DELETE FROM media WHERE NumMedium = ?");
+            sql.setInt(1, medium.getNumMedia());
             sql.executeUpdate();
 
             return true;
@@ -206,4 +208,62 @@ public class DaoMedium extends Dao<Medium>
             return false;
         }
     }
+    
+    /**
+     * méthode créant un lien "emprunter" entre un utilisateur et un medium
+     * @param utilisateur souhaitant emprunter le medium en paramètre
+     * @param medium sélectionné par l'emprunteur passé en paramètre
+     * @return true si l'emprunt a été correctement effectué sinon échec
+     */
+    public boolean emprunter(Personne personne, Medium medium, Date date)
+    {
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("INSERT INTO louer (DateLocation, IDpersonne, NumMedium) VALUES (?, ?, ?)");
+
+            int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
+            sql.setDate(i++, date);
+            sql.setInt(i++, personne.getIDpersonne());
+            sql.setInt(i++, medium.getNumMedia());
+            sql.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    } 
+    
+    /**
+     * méthode créant un lien "restituer" medium emprunté par un utilisateur
+     * @param utilisateur souhaitant restituer le medium en paramètre
+     * @param medium sélectionné par l'emprunteur passé en paramètre
+     * @return true si la restitution a été correctement effectuée sinon échec
+     */
+    public boolean restituer(Personne personne, Medium medium, Date date, String commentaire)
+    {
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("UPDATE louer "
+										            		+ "SET DateRestitution = ?, Commentaire = ? "
+										            		+ "WHERE IDpersonne = ? "
+										            		+ "AND NumMedium = ?");
+
+            int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
+            sql.setDate(i++, date);
+            sql.setString(i++, commentaire);
+            sql.setInt(i++, personne.getIDpersonne());
+            sql.setInt(i++, medium.getNumMedia());
+            sql.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    } 
 }

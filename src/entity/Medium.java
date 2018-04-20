@@ -1,6 +1,6 @@
 package entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Medium
 {
@@ -26,7 +26,7 @@ public class Medium
         this.prix = prix;
         this.dureeLocation = dureeLocation;
         this.type = type;
-        this.armoire = armoire;
+        this.setArmoire(armoire);
     }
 
     public int getNumMedia()
@@ -113,4 +113,12 @@ public class Medium
     {
         this.type = type;
     }
+
+	public Armoire getArmoire() {
+		return armoire;
+	}
+
+	public void setArmoire(Armoire armoire) {
+		this.armoire = armoire;
+	}
 }

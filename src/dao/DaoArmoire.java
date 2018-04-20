@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Armoire;
+import entity.Bibliotheque;
 import entity.Personne;
 
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ public class DaoArmoire extends Dao<Armoire>
 
         try
         {
-            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Armoire WHERE id= ?");
+            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Armoire WHERE NumArmoire = ?");
             sql.setInt(1, id);
             sql.execute();
             ResultSet resultat = sql.getResultSet();
@@ -39,9 +40,38 @@ public class DaoArmoire extends Dao<Armoire>
 
         return armoire;
     }
+    
+    public ArrayList<Armoire> findArmoiresParBibliotheque(Bibliotheque bibliotheque)
+    {
+    	ArrayList<Armoire> listeNumArmoire = new ArrayList<>();
+    	
+    	try
+    	{
+    		PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Armoire WHERE NumBibliotheque = ?");
+    		sql.setInt(1, bibliotheque.getNumBibliotheque());
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            while (resultat.next())
+            {
+                Armoire armoire = new Armoire(resultat.getInt("NumArmoire"),
+                                              resultat.getString("NomArmoire"),
+                                              new DaoBibliotheque().find(resultat.getInt("NumBibliotheque")));
+
+                listeNumArmoire.add(armoire);
+            }
+    	}
+    	catch (SQLException e)
+    	{
+    		e.printStackTrace();
+            return null;
+    	}
+    	
+    	return listeNumArmoire;
+    }
 
     @Override
-    public List<Armoire> findAll()
+    public ArrayList<Armoire> findAll()
     {
         ArrayList<Armoire> listeArmoires = new ArrayList<>();
 
@@ -59,7 +89,8 @@ public class DaoArmoire extends Dao<Armoire>
 
                 listeArmoires.add(armoire);
             }
-        } catch (SQLException e)
+        }
+        catch (SQLException e)
         {
             e.printStackTrace();
             return null;
@@ -77,14 +108,14 @@ public class DaoArmoire extends Dao<Armoire>
                                                                     "VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
-            sql.setString(i++, armoire.NomArmoire);
-            sql.setString(i++, armoire.bibliotheque.NumBibliotheque);
+            sql.setString(i++, armoire.getNomArmoire());
+            sql.setString(i++, armoire.getBibliotheque().getNomBibliotheque());
             sql.executeUpdate();
 
             ResultSet keys = sql.getGeneratedKeys();
             keys.next();
-            armoire.NumArmoire = keys.getInt(1);
-            armoire = find(armoire.NumArmoire);
+            //armoire.NumArmoire = keys.getInt(1);
+            armoire = find(armoire.getNumArmoire());
         }
         catch (SQLException e)
         {
@@ -105,8 +136,8 @@ public class DaoArmoire extends Dao<Armoire>
                                                                         "WHERE NumArmoire = ?");
 
             int i = 1;
-            sql.setString(i++, armoire.NomArmoire);
-            sql.setInt(i++, armoire.NumArmoire);
+            sql.setString(i++, armoire.getNomArmoire());
+            sql.setInt(i++, armoire.getNumArmoire());
 
             sql.executeUpdate();
         }
@@ -125,7 +156,7 @@ public class DaoArmoire extends Dao<Armoire>
         try
         {
             PreparedStatement sql = connexion.prepareStatement("DELETE FROM armoire WHERE NumArmoire = ?");
-            sql.setInt(1, armoire.NumArmoire);
+            sql.setInt(1, armoire.getNumArmoire());
             sql.executeUpdate();
 
             return true;

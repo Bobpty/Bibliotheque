@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DaoBibliotheque extends Dao<Bibliotheque>
 {
@@ -79,15 +78,15 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
                                                                     "VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
-            sql.setString(i++, bibliotheque.NomBibliotheque);
-            sql.setString(i++, bibliotheque.Adresse);
-            sql.setString(i++, bibliotheque.NombreRangees);
+            sql.setString(i++, bibliotheque.getNomBibliotheque());
+            sql.setString(i++, bibliotheque.getAdresse());
+            sql.setInt(i++, bibliotheque.getNombreRangees());
             sql.executeUpdate();
 
             ResultSet keys = sql.getGeneratedKeys();
             keys.next();
-            bibliotheque.NumBibliotheque = keys.getInt(1);
-            bibliotheque = find(bibliotheque.NumBibliotheque);
+            //bibliotheque.NumBibliotheque = keys.getInt(1);
+            bibliotheque = find(bibliotheque.getNumBibliotheque());
         }
         catch (SQLException e)
         {
@@ -108,10 +107,10 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
                                                                         "WHERE NumBibliotheque = ?");
 
             int i = 1;
-            sql.setString(i++, bibliotheque.NomBibliotheque);
-            sql.setString(i++, bibliotheque.Adresse);
-            sql.setString(i++, bibliotheque.NombreRangees);
-            sql.setInt(i++, bibliotheque.NumBibliotheque);
+            sql.setString(i++, bibliotheque.getNomBibliotheque());
+            sql.setString(i++, bibliotheque.getAdresse());
+            sql.setInt(i++, bibliotheque.getNombreRangees());
+            sql.setInt(i++, bibliotheque.getNumBibliotheque());
 
             sql.executeUpdate();
         }
@@ -130,11 +129,11 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
         try
         {
             PreparedStatement sql = connexion.prepareStatement("DELETE FROM armoire WHERE NumBibliotheque = ?");
-            sql.setInt(1, bibliotheque.NumBibliotheque);
+            sql.setInt(1, bibliotheque.getNumBibliotheque());
             sql.executeUpdate();
 
             PreparedStatement statement = connexion.prepareStatement("DELETE FROM bibliotheque WHERE NumBibliotheque = ?");
-            statement.setInt(1, bibliotheque.NumBibliotheque);
+            statement.setInt(1, bibliotheque.getNumBibliotheque());
             statement.executeUpdate();
 
             return true;
