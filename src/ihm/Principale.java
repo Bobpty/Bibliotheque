@@ -46,26 +46,11 @@ public class Principale implements ActionListener{
 	private JFrame frmBibliotheque;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Principale window = new Principale();
-					window.frmBibliotheque.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public Principale() {
 		initialize();
+		frmBibliotheque.setVisible(true);
 	}
 	
 	

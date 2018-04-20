@@ -1,3 +1,6 @@
+/classes/
+/dao/
+/entity/
 /ihm/
 /util/
-/dao/
+/launcher/
