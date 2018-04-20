@@ -2,14 +2,12 @@ package dao;
 
 import entity.Armoire;
 import entity.Bibliotheque;
-import entity.Personne;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DaoArmoire extends Dao<Armoire>
 {
