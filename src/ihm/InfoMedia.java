@@ -15,14 +15,19 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.Dao;
+import util.DBUtil;
+
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class InfoMedia {
 
-	private JFrame frmInformationSurLe;
+	private JFrame frmInformationSurLeMedium;
 	private JTextField textFieldTitre;
 	private JTextField txtRealAutComp;
 	private JTextField txtDuree;
@@ -32,40 +37,25 @@ public class InfoMedia {
 	private JTable tableLocation;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					InfoMedia window = new InfoMedia();
-					window.frmInformationSurLe.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public InfoMedia() {
 		initialize();
+		frmInformationSurLeMedium.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmInformationSurLe = new JFrame();
-		frmInformationSurLe.setTitle("Information sur le medium");
-		frmInformationSurLe.setBounds(100, 100, 1055, 744);
-		frmInformationSurLe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmInformationSurLe.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		frmInformationSurLeMedium = new JFrame();
+		frmInformationSurLeMedium.setTitle("Information sur le medium");
+		frmInformationSurLeMedium.setBounds(100, 100, 1055, 744);
+		frmInformationSurLeMedium.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmInformationSurLeMedium.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JScrollPane scrollPaneHaut = new JScrollPane();
-		frmInformationSurLe.getContentPane().add(scrollPaneHaut);
+		frmInformationSurLeMedium.getContentPane().add(scrollPaneHaut);
 		
 		JPanel panel = new JPanel();
 		scrollPaneHaut.setViewportView(panel);
@@ -164,7 +154,7 @@ public class InfoMedia {
 		});
 		
 		JScrollPane scrollPaneTableau = new JScrollPane();
-		frmInformationSurLe.getContentPane().add(scrollPaneTableau);
+		frmInformationSurLeMedium.getContentPane().add(scrollPaneTableau);
 		
 		JPanel panelTableau = new JPanel();
 		scrollPaneTableau.setViewportView(panelTableau);
@@ -173,38 +163,50 @@ public class InfoMedia {
 		JLabel lblLocations = new JLabel("Locations:");
 		panelTableau.add(lblLocations);
 		
-		tableLocation = new JTable();
-		tableLocation.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Nom", "Adresse", "Date Location", "Date restitution", "Commentaire"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				true, true, true, false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tableLocation.getColumnModel().getColumn(2).setPreferredWidth(94);
-		tableLocation.getColumnModel().getColumn(3).setPreferredWidth(103);
-		tableLocation.getColumnModel().getColumn(4).setPreferredWidth(101);
-		tableLocation.setToolTipText("");
-		tableLocation.setColumnSelectionAllowed(true);
-		tableLocation.setCellSelectionEnabled(true);
+		
+		String  donnees[][] = new String[45][5];
+		String ligne[] = {"John", "15 avenue de ville Paris", "01/01/2001", "01/02/2001", "blahblah"};
+		for(int i = 0 ; i<45; i++)
+		{
+			donnees[i] = ligne;
+		}
+		
+		String entete[] = {"Nom", "Adresse", "Date Location", "Date restitution", "Commentaire"};
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panelTableau.add(scrollPane);
+		
+		tableLocation = new JTable(donnees, entete);
+		scrollPane.setViewportView(tableLocation);
+//		tableLocation.setModel(new DefaultTableModel(
+//			new Object[][] {
+//				{"John", "15 avenue de ville Paris", "01/01/2001", "01/02/2001", "blahblah"},
+//				{"John", "15 avenue de ville Paris", "01/01/2001", "01/02/2001", "blahblah"},
+//			},
+//			new String[] {
+//				"Nom", "Adresse", "Date Location", "Date restitution", "Commentaire"
+//			}
+//		) {
+//			Class[] columnTypes = new Class[] {
+//				String.class, String.class, String.class, String.class, String.class
+//			};
+//			public Class getColumnClass(int columnIndex) {
+//				return columnTypes[columnIndex];
+//			}
+//			boolean[] columnEditables = new boolean[] {
+//				false, false, false, false, false
+//			};
+//			public boolean isCellEditable(int row, int column) {
+//				return columnEditables[column];
+//			}
+//		});
+//		tableLocation.getColumnModel().getColumn(2).setPreferredWidth(94);
+//		tableLocation.getColumnModel().getColumn(3).setPreferredWidth(103);
+//		tableLocation.getColumnModel().getColumn(4).setPreferredWidth(101);
+//		tableLocation.setToolTipText("");
+//		tableLocation.setColumnSelectionAllowed(true);
+//		tableLocation.setCellSelectionEnabled(true);
 		tableLocation.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelTableau.add(tableLocation);
 		
 		JButton btnEnregistrer = new JButton("Enregistrer");
 		btnEnregistrer.addMouseListener(new MouseAdapter() {

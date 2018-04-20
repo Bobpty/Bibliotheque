@@ -20,7 +20,7 @@ import java.awt.FlowLayout;
 
 public class Location {
 
-	private JFrame frmLoaction;
+	private JFrame frmLocation;
 	private JTextField txtNomDuLoueur;
 	private JTextField txtAdresse;
 	private JTextField txtEmail;
@@ -28,39 +28,24 @@ public class Location {
 	private JTextField txtDateDeRestitution;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Location window = new Location();
-					window.frmLoaction.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public Location() {
 		initialize();
+		frmLocation.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmLoaction = new JFrame();
-		frmLoaction.setTitle("Location");
-		frmLoaction.setBounds(100, 100, 695, 495);
-		frmLoaction.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLocation = new JFrame();
+		frmLocation.setTitle("Location");
+		frmLocation.setBounds(100, 100, 695, 495);
+		frmLocation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		frmLoaction.getContentPane().add(panel, BorderLayout.CENTER);
+		frmLocation.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblTitre = new JLabel("Titre:");

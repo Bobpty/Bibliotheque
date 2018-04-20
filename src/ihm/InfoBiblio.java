@@ -13,46 +13,31 @@ import java.awt.event.MouseEvent;
 
 public class InfoBiblio {
 
-	private JFrame frmInformationsSurLa;
+	private JFrame frmInformationsSurLaBibliotheque;
 	private JTextField txtNom;
 	private JTextField txtAdresse;
 	private JTextField txtNombreDarmoires;
 	private JTextField txtNombreDeRangees;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					InfoBiblio window = new InfoBiblio();
-					window.frmInformationsSurLa.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public InfoBiblio() {
 		initialize();
+		frmInformationsSurLaBibliotheque.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmInformationsSurLa = new JFrame();
-		frmInformationsSurLa.setTitle("Informations sur la biblioth\u00E8que");
-		frmInformationsSurLa.setBounds(100, 100, 637, 498);
-		frmInformationsSurLa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmInformationsSurLaBibliotheque = new JFrame();
+		frmInformationsSurLaBibliotheque.setTitle("Informations sur la biblioth\u00E8que");
+		frmInformationsSurLaBibliotheque.setBounds(100, 100, 637, 498);
+		frmInformationsSurLaBibliotheque.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		frmInformationsSurLa.getContentPane().add(panel, BorderLayout.CENTER);
+		frmInformationsSurLaBibliotheque.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		JLabel lblNom = new JLabel("Nom:");
 		panel.add(lblNom);

@@ -18,26 +18,11 @@ public class Rechercher {
 	private JFrame frmRechercherUnMedium;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Rechercher window = new Rechercher();
-					window.frmRechercherUnMedium.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public Rechercher() {
 		initialize();
+		frmRechercherUnMedium.setVisible(true);
 	}
 
 	/**

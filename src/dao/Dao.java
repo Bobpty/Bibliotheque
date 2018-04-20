@@ -3,9 +3,11 @@ package dao;
 import java.sql.Connection;
 import java.util.List;
 
+import util.DBUtil;
+
 public abstract class Dao<T>
 {
-    Connection connexion = DB.getInstance();
+    Connection connexion = DBUtil.setConnection("localhost", dbName);
 
     /**
      * Cherche un objet T avec un identifiant id.
