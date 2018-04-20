@@ -1,12 +1,5 @@
-/**
- * 
- */
 package classes;
 
-/**
- * @author Paul Payraudeau
- *
- */
 public class Emprunteur {
 	private String nom;
 	private String prenom;

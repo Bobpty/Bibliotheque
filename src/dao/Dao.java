@@ -7,7 +7,7 @@ import util.DBUtil;
 
 public abstract class Dao<T>
 {
-	Connection connexion = DBUtil.setConnection("localhost", "bibliotheque");
+	Connection connexion = DBUtil.getInstance();
 
     /**
      * Cherche un objet T avec un identifiant id.

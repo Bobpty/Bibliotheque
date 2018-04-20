@@ -5,11 +5,8 @@ package classes;
 
 import java.util.Date;
 
-/**
- * @author Paul Payraudeau
- *
- */
-public class Bibliotheque implements Emprunter{
+public class Bibliotheque implements Emprunter
+{
 
 	DVD unDVD;
 	CD unCD;
@@ -30,21 +27,22 @@ public class Bibliotheque implements Emprunter{
 	}
 
 	@Override
-	public boolean estEmprunte() {
-		
-		return false;
+	public boolean estEmprunte()
+	{
+		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void emprunter(Emprunteur unEmprunteur, Date dateDEmprunt) {
+	public void emprunter(Emprunteur unEmprunteur, Date dateDEmprunt)
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void restituer(Emprunter unEmprunteur, Date dateRestitution) {
+	public void restituer(Emprunter unEmprunteur, Date dateRestitution)
+	{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

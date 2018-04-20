@@ -1,48 +1,43 @@
-/**
- * 
- */
 package classes;
 
 import java.util.Date;
 
-/**
- * @author Paul Payraudeau
- *
- */
-public class CD extends Media{
+public class CD extends Media
+{
 	private int nbChanson;
 	
 	
-	public CD(String titreMedia, String realAutInt, Date dateParution, double prixHT, int dureeLocation,int unNbChanson) {
+	public CD(String titreMedia, String realAutInt, Date dateParution, double prixHT, int dureeLocation,int unNbChanson)
+	{
 		super(titreMedia, realAutInt, dateParution, prixHT, dureeLocation);
 		this.nbChanson = unNbChanson;
 	}
 
 	
 	@Override
-	public String getTitreMedia() {
-		// TODO Auto-generated method stub
+	public String getTitreMedia()
+	{
 		return super.getTitreMedia();
 	}
 
 
 	@Override
-	public void setTitreMedia(String titreMedia) {
-		// TODO Auto-generated method stub
+	public void setTitreMedia(String titreMedia)
+	{
 		super.setTitreMedia(titreMedia);
 	}
 
 
 	@Override
-	public String getRealAutInt() {
-		// TODO Auto-generated method stub
+	public String getRealAutInt()
+	{
 		return super.getRealAutInt();
 	}
 
 
 	@Override
-	public void setRealAutInt(String realAutInt) {
-		// TODO Auto-generated method stub
+	public void setRealAutInt(String realAutInt)
+	{
 		super.setRealAutInt(realAutInt);
 	}
 

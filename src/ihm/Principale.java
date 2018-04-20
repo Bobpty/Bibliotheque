@@ -140,7 +140,7 @@ public class Principale implements ActionListener{
 		panelMilieu.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel rangeArmoire = null;
-		for(int i = 0; i <20; i++)
+		for(int i = 0; i < 20; i++)
 		{
 			if(i%6 == 0) {
 				rangeArmoire = new JPanel(new GridLayout(0, 6, 0, 0));
@@ -152,8 +152,6 @@ public class Principale implements ActionListener{
 			rangeArmoire.add(armoire);
 			listArmoire.add(armoire);
 		}
-		
-
 	}
 
 	@Override

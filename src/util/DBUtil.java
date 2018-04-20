@@ -13,6 +13,33 @@ import java.util.ArrayList;
 
 public class DBUtil {
 
+	private static String url = "jdbc:mysql://localhost:3306/bibliotheque";
+	private static String user = "root";
+    private static String pass = "";
+    private static Connection connexion;
+
+    /**
+     * Cette méthode donne l'instance nécessaire à la gestion de la base de donnée.
+     * L'instance retournée n'est créé qu'au premier appel (lazy-loading)
+     * @return l'instance qui sera utilisée globalement pour gérer la base de données
+     */
+    public static Connection getInstance()
+    {
+        if(connexion == null)
+        {
+            try
+            {
+                connexion = DriverManager.getConnection(url, user, pass);
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return connexion;
+    }
+	
+	/*
 	public static Connection setConnection(String serverIP) throws SQLException 
 	{
 		try 
@@ -35,7 +62,7 @@ public class DBUtil {
 		{
 			throw new SQLException("Erreur: " + e.getMessage());
 		}
-	}
+	}*/
 	
 	public static ArrayList<String> getSchemasList(Connection connect) throws SQLException {
 		DatabaseMetaData metaDB = connect.getMetaData();

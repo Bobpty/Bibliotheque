@@ -76,7 +76,7 @@ public class DaoArmoire extends Dao<Armoire>
             PreparedStatement sql = connexion.prepareStatement("INSERT INTO Armoire (NomArmoire, NumBibliotheque) " +
                                                                     "VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            int i = 1; //Permet d'itÃ©rer plus facilement sur chacun des paramÃ¨tres
+            int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
             sql.setString(i++, armoire.NomArmoire);
             sql.setString(i++, armoire.bibliotheque.NumBibliotheque);
             sql.executeUpdate();
