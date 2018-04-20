@@ -41,7 +41,7 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
     }
 
     @Override
-    public List<Bibliotheque> findAll()
+    public ArrayList<Bibliotheque> findAll()
     {
         ArrayList<Bibliotheque> listeBibliotheques = new ArrayList<>();
 

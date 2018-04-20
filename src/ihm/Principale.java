@@ -194,7 +194,7 @@ public class Principale implements ActionListener{
 			break;
 		case "inventaire":
 			frmBibliotheque.dispose();
-//			new Inventaire();
+			new Inventaire();
 			break;
 		default:
 			

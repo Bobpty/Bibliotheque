@@ -21,6 +21,8 @@ import util.DBUtil;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -140,18 +142,9 @@ public class InfoMedia {
 		JLabel lblStockerDansArmoire = new JLabel("Stocker dans armoire:");
 		panelStockerDansArmoire.add(lblStockerDansArmoire);
 		
-		JList list = new JList();
+		
+		JComboBox<String> list = new JComboBox<>();
 		panelStockerDansArmoire.add(list);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"1", "2", "3", "4", "5"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
 		
 		JScrollPane scrollPaneTableau = new JScrollPane();
 		frmInformationSurLeMedium.getContentPane().add(scrollPaneTableau);

@@ -4,18 +4,33 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import entity.Bibliotheque;
+import dao.DaoBibliotheque;
+import entity.Medium;
+
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
+import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class ChargerBiblio {
 
 	private JFrame frmChargerUneBibliotheque;
+	ArrayList<Bibliotheque> listBiblio = new ArrayList<Bibliotheque>();
+	Bibliotheque biblio;
+	DaoBibliotheque daoBibliotheque = new DaoBibliotheque();
 
 	/**
 	 * Create the application.
@@ -41,8 +56,16 @@ public class ChargerBiblio {
 		lblNom.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblNom);
 		
-		JList listBibliotheque = new JList();
-		listBibliotheque.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listBiblio = daoBibliotheque.findAll();
+
+		Vector<String> vector = new Vector<>();
+		
+		for(int i = 0; i < listBiblio.size(); i++)
+		{
+			vector.add(listBiblio.get(i).getNomBibliotheque());
+		}
+		
+		JComboBox listBibliotheque = new JComboBox<>(vector);
 		lblNom.setLabelFor(listBibliotheque);
 		panel.add(listBibliotheque);
 		

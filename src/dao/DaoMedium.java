@@ -46,7 +46,7 @@ public class DaoMedium extends Dao<Medium>
 
         return medium;
     }
-
+  
     @Override
     public List<Medium> findAll()
     {
