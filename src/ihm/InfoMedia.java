@@ -18,8 +18,11 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.Dao;
 import dao.DaoArmoire;
+import dao.DaoMedium;
 import entity.Armoire;
 import entity.Bibliotheque;
+import entity.Louer;
+import entity.Medium;
 import util.DBUtil;
 
 import javax.swing.JScrollPane;
@@ -28,6 +31,8 @@ import javax.swing.JComboBox;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -44,7 +49,9 @@ public class InfoMedia {
 	
 	ArrayList<Armoire> listNumArmoire =  new ArrayList<Armoire>();
 	ArrayList<Armoire> listArmoire = new ArrayList<>();
+	ArrayList<Louer> listLocation = new ArrayList<>();
 	DaoArmoire daoArmoire = new DaoArmoire();
+	DaoMedium daoMedium = new DaoMedium();
 	Bibliotheque biblio = new Bibliotheque();
 
 
@@ -146,6 +153,16 @@ public class InfoMedia {
 		lblJours.setLabelFor(txtDureeDeLocation);
 		panelDureeLocation.add(lblJours);
 		
+		JPanel panelTypeMedia = new JPanel();
+		panel.add(panelTypeMedia);
+		
+		JLabel lblTypeMedia = new JLabel("Type: ");
+		panelTypeMedia.add(lblTypeMedia);
+		
+		String[] tabTypeMedia = new String[] {"CD","DVD","Livre"};
+		
+		JComboBox<String> listTypeMedia = new JComboBox<>(tabTypeMedia);
+		panelTypeMedia.add(listTypeMedia);
 		JPanel panelStockerDansArmoire = new JPanel();
 		panel.add(panelStockerDansArmoire);
 		
@@ -174,13 +191,16 @@ public class InfoMedia {
 		JLabel lblLocations = new JLabel("Locations:");
 		panelTableau.add(lblLocations);
 		
-		listNumArmoire = (ArrayList<Armoire>) daoArmoire.findAll();
+		listLocation = (ArrayList<Louer>) daoMedium.findAllMediaEmpruntes();
+		String  donnees[][] = new String[listLocation.size()][5];
 		
-		String  donnees[][] = new String[45][5];
-		String ligne[] = {"John", "15 avenue de ville Paris", "01/01/2001", "01/02/2001", "blahblah"};
-		for(int i = 0 ; i<45; i++)
+		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		int i = 0;
+		for(Louer location : listLocation)
 		{
-			donnees[i] = ligne;
+			String[] infoLocation = {location.getPersonne().getNom(), location.getPersonne().getAdresse(), formatter.format(location.getDateLocation()), formatter.format(location.getDateRestitution()), location.getCommentaire()};
+			donnees[i] = infoLocation;
+			i++;
 		}
 		
 		String entete[] = {"Nom", "Adresse", "Date Location", "Date restitution", "Commentaire"};
@@ -190,34 +210,7 @@ public class InfoMedia {
 		
 		tableLocation = new JTable(donnees, entete);
 		scrollPane.setViewportView(tableLocation);
-//		tableLocation.setModel(new DefaultTableModel(
-//			new Object[][] {
-//				{"John", "15 avenue de ville Paris", "01/01/2001", "01/02/2001", "blahblah"},
-//				{"John", "15 avenue de ville Paris", "01/01/2001", "01/02/2001", "blahblah"},
-//			},
-//			new String[] {
-//				"Nom", "Adresse", "Date Location", "Date restitution", "Commentaire"
-//			}
-//		) {
-//			Class[] columnTypes = new Class[] {
-//				String.class, String.class, String.class, String.class, String.class
-//			};
-//			public Class getColumnClass(int columnIndex) {
-//				return columnTypes[columnIndex];
-//			}
-//			boolean[] columnEditables = new boolean[] {
-//				false, false, false, false, false
-//			};
-//			public boolean isCellEditable(int row, int column) {
-//				return columnEditables[column];
-//			}
-//		});
-//		tableLocation.getColumnModel().getColumn(2).setPreferredWidth(94);
-//		tableLocation.getColumnModel().getColumn(3).setPreferredWidth(103);
-//		tableLocation.getColumnModel().getColumn(4).setPreferredWidth(101);
-//		tableLocation.setToolTipText("");
-//		tableLocation.setColumnSelectionAllowed(true);
-//		tableLocation.setCellSelectionEnabled(true);
+		
 		tableLocation.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		JButton btnEnregistrer = new JButton("Enregistrer");

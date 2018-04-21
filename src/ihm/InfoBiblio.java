@@ -6,10 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import entity.Bibliotheque;
+
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 
 /**
  * 
@@ -23,6 +28,8 @@ public class InfoBiblio {
 	private JTextField txtAdresse;
 	private JTextField txtNombreDarmoires;
 	private JTextField txtNombreDeRangees;
+	Bibliotheque bibliotheque;
+
 
 	/**
 	 * Create the application.
@@ -30,6 +37,15 @@ public class InfoBiblio {
 	public InfoBiblio() {
 		initialize();
 		frmInformationsSurLaBibliotheque.setVisible(true);
+		bibliotheque = null;
+	}
+	
+	public InfoBiblio(Bibliotheque laBibliotheque)
+	{
+		initialize();
+		frmInformationsSurLaBibliotheque.setVisible(true);
+		bibliotheque = laBibliotheque;
+		addWindowListener
 	}
 
 	/**
@@ -80,6 +96,78 @@ public class InfoBiblio {
 		btnEnregistrer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				final boolean testSaisiChamp = txtNom.getText().isEmpty() || txtAdresse.getText().isEmpty() || txtNombreDarmoires.getText().isEmpty() || txtNombreDeRangees.getText().isEmpty();
+			
+				if(testSaisiChamp)
+				{
+					JOptionPane.showMessageDialog(null, "Il faut saisir toutes les données", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+
+				}
+				else {
+					String nom = ((JTextField) txtNom).getText();
+					String adresse = ((JTextField) txtAdresse).getText();
+
+					if(nom.contains("'"))
+						nom = nom.replaceAll("'", "''");
+					if(adresse.contains("'"))
+						adresse.replaceAll("'", "''");
+					
+					int nbArmoires;
+					int nbRangees;
+					try {
+						nbArmoires = Integer.parseInt(((JTextField) txtNombreDarmoires).getText());
+						nbRangees = Integer.parseInt(((JTextField) txtNombreDeRangees).getText());
+					}
+					catch (Exception exception) {
+						JOptionPane.showMessageDialog(null, "Seuls les chiffres sont autorisés", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+						break;
+					}
+					
+					if(nbRangees >= nbArmoires)
+						JOptionPane.showMessageDialog(null, "Impossible d'avoir plus de rangées que d'armoires", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+					else if(nbArmoires >= (6*nbRangees+1))
+						JOptionPane.showMessageDialog(null, "Impossible d'avoir plus de 6 armoires par côté de rangée", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+
+					
+					
+					
+					if(bibliotheque == null)
+					{
+						bibliotheque = new Bibliotheque(nom, adresse, nbArmoires, nbRangees);
+						int rep = DB.insererBibliotheque(bibliotheque);
+						
+						if(rep != -1)
+						{
+							JOptionPane.showMessageDialog(null, "La bibliothèque a bien été enregistrée", "Bibliothèque enregistrée !", JOptionPane.INFORMATION_MESSAGE);
+							bibliotheque.setId(rep);
+							new Principale(bibliotheque);
+							dispose();
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "La bibliothèque n'a pas été enregistrée, veuillez réessayer", "Erreur d'enregistrement", JOptionPane.ERROR_MESSAGE);
+							new Principale(bibliotheque);
+							dispose();
+						}
+
+					}
+					else
+					{
+						bibliotheque.setNom(nom);
+						bibliotheque.setAdresse(adresse);
+						bibliotheque.setNbArmoires(nbArmoires);
+						bibliotheque.setNbRangees(nbRangees);
+						
+						boolean rep = DB.modifierBibliotheque(bibliotheque);
+						if(rep)
+							JOptionPane.showMessageDialog(null, "La bibliothèque a bien été modifiée", "Bibliothèque modifiée !", JOptionPane.INFORMATION_MESSAGE);
+						else
+							JOptionPane.showMessageDialog(null, "La bibliothèque n'a pas été modifiée, veuillez réessayer", "Erreur de modification", JOptionPane.ERROR_MESSAGE);
+						new Principale(bibliotheque);
+						dispose();
+					}
+				}
 			}
 		});
 		panel.add(btnEnregistrer);
