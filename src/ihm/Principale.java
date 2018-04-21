@@ -133,20 +133,23 @@ public class Principale implements ActionListener{
 		frmBibliotheque.getContentPane().add(panelMilieu, BorderLayout.CENTER);
 		panelMilieu.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		int nbreArmoire = daoArmoire.countNombreArmoires(laBibliotheque);
-		
-		JPanel rangeArmoire = null;
-		for(int i = 0; i < nbreArmoire; i++)
+		if (laBibliotheque != null)
 		{
-			if(i%6 == 0) {
-				rangeArmoire = new JPanel(new GridLayout(0, 6, 0, 0));
-				rangeArmoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				panelMilieu.add(rangeArmoire);
+			int nbreArmoire = daoArmoire.countNombreArmoires(laBibliotheque);
+		
+			JPanel rangeArmoire = null;
+			for(int i = 0; i < nbreArmoire; i++)
+			{
+				if(i%6 == 0) {
+					rangeArmoire = new JPanel(new GridLayout(0, 6, 0, 0));
+					rangeArmoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					panelMilieu.add(rangeArmoire);
+				}
+				JPanel armoire = new JPanel(new GridLayout(3, 1));
+				armoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				rangeArmoire.add(armoire);
+				listArmoire.add(armoire);
 			}
-			JPanel armoire = new JPanel(new GridLayout(3, 1));
-			armoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-			rangeArmoire.add(armoire);
-			listArmoire.add(armoire);
 		}
 	}
 
