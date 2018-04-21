@@ -10,13 +10,13 @@ public class Louer
     private Date dateRestitution;
     private String commentaire;
 
-    public Louer(Personne personne, Medium medium, Date dateLocation, Date dateRestitution, String commentaire)
+    public Louer(Date dateLocation, Date dateRestitution, String commentaire, Personne personne, Medium medium)
     {
-        this.personne = personne;
-        this.medium = medium;
         this.dateLocation = dateLocation;
         this.dateRestitution = dateRestitution;
         this.commentaire = commentaire;
+        this.personne = personne;
+        this.medium = medium;
     }
 
     public Personne getPersonne()

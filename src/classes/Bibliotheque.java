@@ -30,6 +30,7 @@ public class Bibliotheque implements Emprunter
 	public boolean estEmprunte()
 	{
 		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

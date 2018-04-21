@@ -1,23 +1,17 @@
 package ihm;
 
-import java.awt.EventQueue;
-import java.sql.Date;
+import java.awt.BorderLayout;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
-import com.mysql.jdbc.PreparedStatement;
 
 import dao.DaoMedium;
 import entity.Medium;
-import util.DBUtil;
-
-import javax.swing.JScrollPane;
 
 public class Inventaire {
 

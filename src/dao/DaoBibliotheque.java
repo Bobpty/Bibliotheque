@@ -38,6 +38,34 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
 
         return bibliotheque;
     }
+    
+    public Bibliotheque findByNom(String nom)
+    {
+        Bibliotheque bibliotheque = null;
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Bibliotheque WHERE NomBibliotheque = ?");
+            sql.setString(1, nom);
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            if(resultat.first())
+            {
+                bibliotheque = new Bibliotheque(resultat.getInt("NumBibliotheque"),
+                                                resultat.getString("NomBibliotheque"),
+                                                resultat.getString("Adresse"),
+                                                resultat.getInt("NombreRangees"));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return bibliotheque;
+    }
 
     @Override
     public ArrayList<Bibliotheque> findAll()

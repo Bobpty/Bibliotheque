@@ -1,40 +1,29 @@
 package ihm;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
-
-import javax.swing.AbstractListModel;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
-import dao.Dao;
-import dao.DaoArmoire;
-import dao.DaoMedium;
-import entity.Armoire;
-import entity.Bibliotheque;
-import entity.Louer;
-import entity.Medium;
-import util.DBUtil;
-
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+
+import dao.DaoArmoire;
+import dao.DaoMedium;
+import entity.Armoire;
+import entity.Bibliotheque;
+import entity.Louer;
 
 public class InfoMedia {
 

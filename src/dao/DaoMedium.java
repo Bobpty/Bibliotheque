@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Louer;
 import entity.Medium;
 import entity.Personne;
 
@@ -14,6 +15,8 @@ import java.util.List;
 
 public class DaoMedium extends Dao<Medium>
 {
+	DaoPersonne daoPersonne;
+	
     @Override
     public Medium find(int id)
     {
@@ -84,6 +87,44 @@ public class DaoMedium extends Dao<Medium>
         return listeMedia;
     }
 
+    /**
+     * @return ArrayList de tous les média empruntés
+     */
+    public ArrayList<Louer> findAllMediaEmpruntes()
+    {
+        ArrayList<Louer> listeMediaLoues = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Louer");
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            while (resultat.next())
+            {
+                Louer location = new Louer(resultat.getDate("DateLocation"),
+                                            resultat.getDate("DateRestitution"),
+                                            resultat.getString("Commentaire"),
+                                            new DaoPersonne().find(resultat.getInt("IDpersonne")),
+                                            new DaoMedium().find(resultat.getInt("NumMedium")));
+
+                listeMediaLoues.add(location);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return listeMediaLoues;
+    }
+    
+    /**
+     * recherche tous les media par type
+     * @param type de medium (CD, DVD ou Livre)
+     * @return ArrayListe de tous les média du type
+     */
     public List<Medium> findByType(String type)
     {
         ArrayList<Medium> listeMedia = new ArrayList<>();
@@ -211,6 +252,7 @@ public class DaoMedium extends Dao<Medium>
     
     /**
      * méthode créant un lien "emprunter" entre un utilisateur et un medium
+     * si l'utilisateur n'existe pas alors on le crée
      * @param utilisateur souhaitant emprunter le medium en paramètre
      * @param medium sélectionné par l'emprunteur passé en paramètre
      * @return true si l'emprunt a été correctement effectué sinon échec
@@ -226,6 +268,11 @@ public class DaoMedium extends Dao<Medium>
             sql.setInt(i++, personne.getIDpersonne());
             sql.setInt(i++, medium.getNumMedia());
             sql.executeUpdate();
+            
+            if (daoPersonne.find(personne.getIDpersonne()) == null)
+        	{
+            	daoPersonne.create(personne);
+        	}
         }
         catch (SQLException e)
         {
