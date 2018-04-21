@@ -29,6 +29,7 @@ public class Location {
 	private JTextField txtDateDeRestitution;
 	ArrayList<Medium> listMedia = new ArrayList<Medium>();
 	DaoMedium daoMedium = new DaoMedium();
+	JComboBox<String> listTitre;
 	/**
 	 * Create the application.
 	 */
@@ -55,14 +56,14 @@ public class Location {
 		panel.add(lblTitre);
 		
 		listMedia = (ArrayList<Medium>) daoMedium.findAll();
-		
+		listTitre.removeAll();
 		Vector<String> vector = new Vector<>();
 		for(int i = 0; i < listMedia.size(); i++ )
 		{
 			vector.add(listMedia.get(i).getTitre());
 		}
 		
-		JComboBox<String> listTitre = new JComboBox<>(vector);
+		listTitre = new JComboBox<>(vector);
 		lblTitre.setLabelFor(listTitre);
 		panel.add(listTitre);
 		
