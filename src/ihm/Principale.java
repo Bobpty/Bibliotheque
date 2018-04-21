@@ -1,57 +1,47 @@
 package ihm;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JPopupMenu;
-import java.awt.Dimension;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import java.awt.Window.Type;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.CardLayout;
-import javax.swing.BoxLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.sun.javafx.font.Disposer;
-
-import entity.Bibliotheque;
-import net.miginfocom.swing.MigLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JSplitPane;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
-import javax.swing.ImageIcon;
-import java.awt.Button;
-import java.awt.Label;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.border.BevelBorder;
+
+import entity.Bibliotheque;
 
 public class Principale implements ActionListener{
 	
-	private ArrayList<JPanel> listArmoire = new ArrayList<JPanel>();
+	private ArrayList<JPanel> listArmoire;
 	private JFrame frmBibliotheque;
+	Bibliotheque laBibliotheque;
 
 	/**
 	 * Create the application.
 	 */
 	public Principale() {
+		listArmoire = new ArrayList<>();
+		laBibliotheque = null;
 		initialize();
 		frmBibliotheque.setVisible(true);
+	}
+	
+	public Principale(Bibliotheque laBiblio)
+	{
+		listArmoire = new ArrayList<>();
+		laBibliotheque = laBiblio;
+		initialize();
+		frmBibliotheque.setVisible(true);	
 	}
 	
 	

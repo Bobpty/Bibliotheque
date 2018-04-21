@@ -1,29 +1,20 @@
 package ihm;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.ListModel;
-
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
-import entity.Bibliotheque;
-import dao.DaoBibliotheque;
-import entity.Medium;
-
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import dao.DaoBibliotheque;
+import entity.Bibliotheque;
 /**
  * 
  * <p>Cette classe permet de charger une bibliothèque
@@ -69,7 +60,7 @@ public class ChargerBiblio {
 			vector.add(listBiblio.get(i).getNomBibliotheque());
 		}
 		
-		JComboBox listBibliotheque = new JComboBox<>(vector);
+		JComboBox<String> listBibliotheque = new JComboBox<>(vector);
 		lblNom.setLabelFor(listBibliotheque);
 		panel.add(listBibliotheque);
 		
@@ -77,7 +68,9 @@ public class ChargerBiblio {
 		btnCharger.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				Bibliotheque bibliotheque = listBiblio.get(listBibliotheque.getSelectedIndex());
+				frmChargerUneBibliotheque.dispose();
+				new Principale(bibliotheque);
 			}
 		});
 		panel.add(btnCharger);
