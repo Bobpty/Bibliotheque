@@ -1,21 +1,19 @@
 package entity;
 
-import java.sql.Date;
-
 public class Medium
 {
     private int numMedia;
     private String Titre;
     private String interRealAuteur;
     private int contenant;
-    private Date dateParution;
-    private Date dateStockage;
+    private String dateParution;
+    private String dateStockage;
     private Float prix;
     private int dureeLocation;
     private String type;
     private Armoire armoire;
 
-    public Medium(int numMedia, String titre, String interRealAuteur, int contenant, Date dateParution, Date dateStockage, Float prix, int dureeLocation, String type, Armoire armoire)
+    public Medium(int numMedia, String titre, String interRealAuteur, int contenant, String dateParution, String dateStockage, Float prix, int dureeLocation, String type, Armoire armoire)
     {
         this.numMedia = numMedia;
         Titre = titre;
@@ -64,22 +62,22 @@ public class Medium
         this.contenant = contenant;
     }
 
-    public Date getDateParution()
+    public String getDateParution()
     {
         return dateParution;
     }
 
-    public void setDateParution(Date dateParution)
+    public void setDateParution(String dateParution)
     {
         this.dateParution = dateParution;
     }
 
-    public Date getDateStockage()
+    public String getDateStockage()
     {
         return dateStockage;
     }
 
-    public void setDateStockage(Date dateStockage)
+    public void setDateStockage(String dateStockage)
     {
         this.dateStockage = dateStockage;
     }

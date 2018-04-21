@@ -1,16 +1,15 @@
 package dao;
 
-import entity.Louer;
-import entity.Medium;
-import entity.Personne;
-
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import entity.Louer;
+import entity.Medium;
+import entity.Personne;
 
 
 public class DaoMedium extends Dao<Medium>
@@ -39,8 +38,8 @@ public class DaoMedium extends Dao<Medium>
                                     resultat.getString("Titre"),
                                     resultat.getString("InterRealAuteur"),
                                     resultat.getInt("Contenant"),
-                                    resultat.getDate("DateParution"),
-                                    resultat.getDate("DateStockage"),
+                                    resultat.getString("DateParution"),
+                                    resultat.getString("DateStockage"),
                                     resultat.getFloat("Prix"),
                                     resultat.getInt("DureeLocation"),
                                     resultat.getString("Type"),
@@ -76,8 +75,8 @@ public class DaoMedium extends Dao<Medium>
                                             resultat.getString("Titre"),
                                             resultat.getString("InterRealAuteur"),
                                             resultat.getInt("Contenant"),
-                                            resultat.getDate("DateParution"),
-                                            resultat.getDate("DateStockage"),
+                                            resultat.getString("DateParution"),
+                                            resultat.getString("DateStockage"),
                                             resultat.getFloat("Prix"),
                                             resultat.getInt("DureeLocation"),
                                             resultat.getString("Type"),
@@ -109,8 +108,8 @@ public class DaoMedium extends Dao<Medium>
 
             while (resultat.next())
             {
-                Louer location = new Louer(resultat.getDate("DateLocation"),
-                                            resultat.getDate("DateRestitution"),
+                Louer location = new Louer(resultat.getString("DateLocation"),
+                                            resultat.getString("DateRestitution"),
                                             resultat.getString("Commentaire"),
                                             new DaoPersonne().find(resultat.getInt("IDpersonne")),
                                             new DaoMedium().find(resultat.getInt("NumMedium")));
@@ -152,8 +151,8 @@ public class DaoMedium extends Dao<Medium>
 					                        resultat.getString("Titre"),
 					                        resultat.getString("InterRealAuteur"),
 					                        resultat.getInt("Contenant"),
-					                        resultat.getDate("DateParution"),
-					                        resultat.getDate("DateStockage"),
+					                        resultat.getString("DateParution"),
+					                        resultat.getString("DateStockage"),
 					                        resultat.getFloat("Prix"),
 					                        resultat.getInt("DureeLocation"),
 					                        resultat.getString("Type"),
@@ -176,6 +175,7 @@ public class DaoMedium extends Dao<Medium>
      * calcule si la date du jour est supérieure à la date de location + sa durée
      * @return ArrayList de Media
      */
+    /*
     public ArrayList<Medium> findAllMediaEnRetard()
     {
     	ArrayList<Medium> listeMediaLoues = new ArrayList<>();
@@ -194,14 +194,53 @@ public class DaoMedium extends Dao<Medium>
 					                        resultat.getString("Titre"),
 					                        resultat.getString("InterRealAuteur"),
 					                        resultat.getInt("Contenant"),
-					                        resultat.getDate("DateParution"),
-					                        resultat.getDate("DateStockage"),
+					                        resultat.getString("DateParution"),
+					                        resultat.getString("DateStockage"),
 					                        resultat.getFloat("Prix"),
 					                        resultat.getInt("DureeLocation"),
 					                        resultat.getString("Type"),
 					                        new DaoArmoire().find(resultat.getInt("NumArmoire")));
 
             	listeMediaLoues.add(medium);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return listeMediaLoues;
+    }
+    */
+    
+    /**
+     * recherche tous les media empruntés qui ne sont pas restitués à temps
+     * calcule si la date du jour est supérieure à la date de location + sa durée
+     * @return ArrayList de Media
+     */
+    public ArrayList<Louer> findAllLocationsEnRetard()
+    {
+    	ArrayList<Louer> listeMediaLoues = new ArrayList<>();
+    	
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT DateLocation DateRestitution, Commentaire, IDpersonne, NumMedium "
+            													+ "FROM louer L, medium M"
+            													+ "WHERE L.NumMedium = M.NumMedium"
+											            		+ "AND NOW() > DATE_ADD(L.DateLocation, INTERVAL M.DureeLocation DAY)");
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            while (resultat.next())
+            {
+            	Louer location = new Louer(resultat.getString("DateLocation"),
+					                        resultat.getString("DateRestitution"),
+					                        resultat.getString("Commentaire"),
+					                        new DaoPersonne().find(resultat.getInt("IDpersonne")),
+					                        new DaoMedium().find(resultat.getInt("NumMedium")));
+
+            	listeMediaLoues.add(location);
             }
         }
         catch (SQLException e)
@@ -235,8 +274,8 @@ public class DaoMedium extends Dao<Medium>
                         resultat.getString("Titre"),
                         resultat.getString("InterRealAuteur"),
                         resultat.getInt("Contenant"),
-                        resultat.getDate("DateParution"),
-                        resultat.getDate("DateStockage"),
+                        resultat.getString("DateParution"),
+                        resultat.getString("DateStockage"),
                         resultat.getFloat("Prix"),
                         resultat.getInt("DureeLocation"),
                         resultat.getString("Type"),
@@ -268,8 +307,8 @@ public class DaoMedium extends Dao<Medium>
             sql.setString(i++, medium.getTitre());
             sql.setString(i++, medium.getInterRealAuteur());
             sql.setInt(i++, medium.getContenant());
-            sql.setDate(i++, medium.getDateParution());
-            sql.setDate(i++, medium.getDateStockage());
+            sql.setString(i++, medium.getDateParution());
+            sql.setString(i++, medium.getDateStockage());
             sql.setFloat(i++, medium.getPrix());
             sql.setInt(i++, medium.getDureeLocation());
             sql.setString(i++, medium.getType());
@@ -313,8 +352,8 @@ public class DaoMedium extends Dao<Medium>
             sql.setString(i++, medium.getTitre());
             sql.setString(i++, medium.getInterRealAuteur());
             sql.setInt(i++, medium.getContenant());
-            sql.setDate(i++, medium.getDateParution());
-            sql.setDate(i++, medium.getDateStockage());
+            sql.setString(i++, medium.getDateParution());
+            sql.setString(i++, medium.getDateStockage());
             sql.setFloat(i++, medium.getPrix());
             sql.setInt(i++, medium.getDureeLocation());
             sql.setString(i++, medium.getType());
@@ -359,14 +398,14 @@ public class DaoMedium extends Dao<Medium>
      * @param medium sélectionné par l'emprunteur passé en paramètre
      * @return true si l'emprunt a été correctement effectué sinon échec
      */
-    public boolean emprunter(Personne personne, Medium medium, Date date)
+    public boolean emprunter(Personne personne, Medium medium, String date)
     {
         try
         {
             PreparedStatement sql = connexion.prepareStatement("INSERT INTO louer (DateLocation, IDpersonne, NumMedium) VALUES (?, ?, ?)");
 
             int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
-            sql.setDate(i++, date);
+            sql.setString(i++, date);
             sql.setInt(i++, personne.getIDpersonne());
             sql.setInt(i++, medium.getNumMedia());
             sql.executeUpdate();
@@ -391,7 +430,7 @@ public class DaoMedium extends Dao<Medium>
      * @param medium sélectionné par l'emprunteur passé en paramètre
      * @return true si la restitution a été correctement effectuée sinon échec
      */
-    public boolean restituer(Personne personne, Medium medium, Date date, String commentaire)
+    public boolean restituer(Personne personne, Medium medium, String date, String commentaire)
     {
         try
         {
@@ -401,7 +440,7 @@ public class DaoMedium extends Dao<Medium>
 										            		+ "AND NumMedium = ?");
 
             int i = 1; //Permet d'itérer plus facilement sur chacun des paramètres
-            sql.setDate(i++, date);
+            sql.setString(i++, date);
             sql.setString(i++, commentaire);
             sql.setInt(i++, personne.getIDpersonne());
             sql.setInt(i++, medium.getNumMedia());

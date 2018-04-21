@@ -1,16 +1,14 @@
 package entity;
 
-import java.util.Date;
-
 public class Louer
 {
     private Personne personne;
     private Medium medium;
-    private Date dateLocation;
-    private Date dateRestitution;
+    private String dateLocation;
+    private String dateRestitution;
     private String commentaire;
 
-    public Louer(Date dateLocation, Date dateRestitution, String commentaire, Personne personne, Medium medium)
+    public Louer(String dateLocation, String dateRestitution, String commentaire, Personne personne, Medium medium)
     {
         this.dateLocation = dateLocation;
         this.dateRestitution = dateRestitution;
@@ -34,22 +32,22 @@ public class Louer
         this.medium = medium;
     }
 
-    public Date getDateLocation()
+    public String getDateLocation()
     {
         return dateLocation;
     }
 
-    public void setDateLocation(Date dateLocation)
+    public void setDateLocation(String dateLocation)
     {
         this.dateLocation = dateLocation;
     }
 
-    public Date getDateRestitution()
+    public String getDateRestitution()
     {
         return dateRestitution;
     }
 
-    public void setDateRestitution(Date dateRestitution)
+    public void setDateRestitution(String dateRestitution)
     {
         this.dateRestitution = dateRestitution;
     }
