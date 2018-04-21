@@ -150,7 +150,7 @@ public class Principale implements ActionListener{
 		switch (e.getActionCommand()) {
 		case "stockerNouveauMedium":
 			frmBibliotheque.dispose();
-			new InfoMedia();
+			new InfoMedia(laBibliotheque);
 			break;
 		case "louerUnMedium":
 			frmBibliotheque.dispose();

@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -30,6 +34,8 @@ import dao.DaoMedium;
 import entity.Armoire;
 import entity.Bibliotheque;
 import entity.Louer;
+import entity.Medium;
+
 import java.awt.event.WindowAdapter;
 
 public class InfoMedia {
@@ -46,22 +52,19 @@ public class InfoMedia {
 	ArrayList<Armoire> listNumArmoire =  new ArrayList<Armoire>();
 	ArrayList<Armoire> listArmoire = new ArrayList<>();
 	ArrayList<Louer> listLocation = new ArrayList<>();
+	ArrayList<Medium> listMedium = new ArrayList<>();
 	DaoArmoire daoArmoire = new DaoArmoire();
 	DaoMedium daoMedium = new DaoMedium();
 	Bibliotheque biblio = new Bibliotheque();
-	String typeDeMedia;
 
 
 	/**
 	 * Create the application.
 	 */
-	public InfoMedia(Bibliotheque unebibliotheque, String type) {
-		typeDeMedia = type;
+	public InfoMedia(Bibliotheque unebibliotheque) {
 		initialize();
 		frmInformationSurLeMedium.setVisible(true);
 		biblio = unebibliotheque;
-		
-		frmInformationSurLeMedium.setTitle(frmInformationSurLeMedium.getTitle() + type);
 		
 		frmInformationSurLeMedium.addWindowListener(new WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -75,7 +78,7 @@ public class InfoMedia {
 	 */
 	private void initialize() {
 		frmInformationSurLeMedium = new JFrame();
-		frmInformationSurLeMedium.setTitle("Information sur le ");
+		frmInformationSurLeMedium.setTitle("Information sur le medium");
 		frmInformationSurLeMedium.setBounds(100, 100, 1055, 744);
 		frmInformationSurLeMedium.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmInformationSurLeMedium.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -226,7 +229,7 @@ public class InfoMedia {
 			public void mouseClicked(MouseEvent arg0) {
 				if(textFieldTitre.getText().isEmpty() || txtRealAutComp.getText().isEmpty() 
 						|| txtDuree.getText().isEmpty()|| txtPrixHt.getText().isEmpty()
-						|| txtDateParution.getText().isEmpty())
+						|| txtDateParution.getText().isEmpty() || txtDureeDeLocation.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null, "Il faut saisir toutes les données", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
 		
@@ -237,11 +240,21 @@ public class InfoMedia {
 					String titre = ((JTextField) textFieldTitre).getText();
 					String auteurRealInter = ((JTextField) txtRealAutComp).getText();
 					int DureeNbPagesChansons = 0;
+					String type = "'";
 					float prix = 0.0f; 
-					String dateParution = ((JTextField) txtDateParution).getText();
-					int numArmoire =(int) ((JComboBox<String>)list).getSelectedItem();
 		
+					java.util.Date dateDeStockage = new java.util.Date();
+					String dateStockage = dateDeStockage.toString();
+					String dateParution = "'";
+					int dureeDeLocation = 0;
 					
+					dateParution = ((JTextField) txtDateParution).getText();
+					
+					int numArmoire = (int) ((JComboBox<String>)list).getSelectedItem();
+					listMedium = (ArrayList<Medium>) daoMedium.findAll();
+					int numMedia = listMedium.size() + 1;
+					int lastArmoire = listArmoire.size() + 1;
+					Armoire uneArmoire = new Armoire(numArmoire, "armoire" + String.valueOf(lastArmoire), biblio);
 					if(titre.contains("'"))
 						titre.replaceAll("'", "''");
 					if(auteurRealInter.contains("'"))
@@ -250,41 +263,23 @@ public class InfoMedia {
 						dateParution.replaceAll("'", "''");
 					
 					try {
+						type = (String) listTypeMedia.getSelectedItem();
+						dureeDeLocation = Integer.parseInt(txtDureeDeLocation.getText());
 						DureeNbPagesChansons = Integer.parseInt(((JTextField) txtDuree).getText());
 						prix = Float.parseFloat(((JTextField) txtPrixHt).getText());
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(null, "La valeur de la durée, du nombre de pages ou du nombre de chansons doit obligatoirement être numérique et la valeur du prix HT doit être réelle", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
-						break;
 					}
 					
-					Media unMedia = null;
-					
-					switch(typeDeMedia){
-						case "CD" :
-							unMedia = new CD(titre, auteurRealInter, dateParution, prix, DureeNbPagesChansons, dureeLocation, nbChanson);
-							break;
-							
-						case "DVD" :
-							unMedia = new DVD(titre, auteurRealInter, DureeNbPagesChansons, dateParution, Prix);
-							break;
-							
-						case"Livre" :
-							unMedia = new Livre(titre, auteurRealInter, DureeNbPagesChansons, dateParution, Prix);
-							break;
-						default:
-							break;
-					}
-					if(DB.insererMedia(bibliotheque, unMedia, numArmoire))
-					{
-						JOptionPane.showMessageDialog(null, "Le "+ quelTypedeMedia +" a bien été enregistré", quelTypedeMedia +" enregistré !", JOptionPane.INFORMATION_MESSAGE);
-						new Principale(bibliotheque);
-						dispose();
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Le "+ quelTypedeMedia +" n'a pas été enregistré, veuillez réessayer", "Erreur d'enregistrement", JOptionPane.ERROR_MESSAGE);
-						
-					}
+					Medium unMedia = new Medium(numMedia, titre, auteurRealInter, DureeNbPagesChansons, dateParution, dateStockage, prix, dureeDeLocation, type, uneArmoire);
+						try {
+							daoMedium.create(unMedia);
+							JOptionPane.showMessageDialog(null, "Le "+ type +" a bien été enregistré", type +" enregistré !", JOptionPane.INFORMATION_MESSAGE);
+							new Principale(biblio);
+							frmInformationSurLeMedium.dispose();
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(null, "Le "+ type +" n'a pas été enregistré, veuillez réessayer", "Erreur d'enregistrement", JOptionPane.ERROR_MESSAGE);
+						}	
 				}
 			}
 		});
