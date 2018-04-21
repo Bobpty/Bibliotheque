@@ -121,6 +121,48 @@ public class DaoMedium extends Dao<Medium>
     }
     
     /**
+     * recherche tous les media qui n'ont pas été empruntés
+     * @return ArrayList de Media
+     */
+    public ArrayList<Medium> findAllMediaDisponibles()
+    {
+    	ArrayList<Medium> listeMediaLoues = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT M.NumMedium, Titre, InterRealAuteur, Contenant, DateParution, DateStockage, Prix, DureeLocation, Type, NumArmoire "
+											            		+ "FROM medium M"
+											            		+ "WHERE M.NumMedium NOT IN (SELECT L.NumMedium"
+											            		+ "FROM louer L)");
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            while (resultat.next())
+            {
+            	Medium medium = new Medium(resultat.getInt("NumMedium"),
+					                        resultat.getString("Titre"),
+					                        resultat.getString("InterRealAuteur"),
+					                        resultat.getInt("Contenant"),
+					                        resultat.getDate("DateParution"),
+					                        resultat.getDate("DateStockage"),
+					                        resultat.getFloat("Prix"),
+					                        resultat.getInt("DureeLocation"),
+					                        resultat.getString("Type"),
+					                        new DaoArmoire().find(resultat.getInt("NumArmoire")));
+
+            	listeMediaLoues.add(medium);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return listeMediaLoues;
+    }
+    
+    /**
      * recherche tous les media par type
      * @param type de medium (CD, DVD ou Livre)
      * @return ArrayListe de tous les média du type
