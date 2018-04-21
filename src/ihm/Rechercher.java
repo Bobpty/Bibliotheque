@@ -2,21 +2,22 @@ package ihm;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 
+import dao.DaoArmoire;
 import dao.DaoMedium;
+import entity.Armoire;
 import entity.Bibliotheque;
 import entity.Medium;
 
@@ -24,8 +25,10 @@ public class Rechercher {
 
 	private JFrame frmRechercherUnMedium;
 	private ArrayList<Medium> listMedium;
+	private ArrayList<Armoire> listArmoire;
 	private Bibliotheque bibliotheque;
 	JComboBox<String> listTitre;
+	DaoArmoire daoArmoire = new DaoArmoire();
 	
 	private DaoMedium daoMedium = new DaoMedium();
 
@@ -59,7 +62,12 @@ public class Rechercher {
 		frmRechercherUnMedium = new JFrame();
 		frmRechercherUnMedium.setTitle("Rechercher un medium");
 		frmRechercherUnMedium.setBounds(100, 100, 450, 300);
-		frmRechercherUnMedium.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmRechercherUnMedium.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    		new Principale(bibliotheque);
+		    }
+		});
 		
 		JPanel panel = new JPanel();
 		frmRechercherUnMedium.getContentPane().add(panel, BorderLayout.CENTER);
@@ -84,6 +92,12 @@ public class Rechercher {
 		frmRechercherUnMedium.getContentPane().add(panel_1, BorderLayout.SOUTH);
 		
 		JButton btnNewButton = new JButton("Rechercher");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				frmRechercherUnMedium.dispose();
+				new Principale(bibliotheque);
+			}
+		});
 		panel_1.add(btnNewButton);
 	}
 
