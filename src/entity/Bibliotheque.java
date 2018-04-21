@@ -20,6 +20,11 @@ public class Bibliotheque
 		super();
 	}
 
+    
+	public void setNumBibliotheque(int numBibliotheque) {
+		this.numBibliotheque = numBibliotheque;
+	}
+
 
 	public int getNumBibliotheque()
     {

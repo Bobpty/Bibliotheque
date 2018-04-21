@@ -9,12 +9,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import dao.DaoArmoire;
+import dao.DaoBibliotheque;
+import entity.Armoire;
 import entity.Bibliotheque;
 
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
+import java.util.ArrayList;
 
 /**
  * 
@@ -28,7 +32,13 @@ public class InfoBiblio {
 	private JTextField txtAdresse;
 	private JTextField txtNombreDarmoires;
 	private JTextField txtNombreDeRangees;
+	ArrayList<Armoire> listArmoire = new ArrayList<>();
+	ArrayList<Bibliotheque> listBiblio = new ArrayList<>();
+	DaoBibliotheque daoBibliotheque = new DaoBibliotheque();
+	DaoArmoire daoArmoire = new DaoArmoire();
 	Bibliotheque bibliotheque;
+	Armoire armoire;
+	
 
 
 	/**
@@ -45,7 +55,11 @@ public class InfoBiblio {
 		initialize();
 		frmInformationsSurLaBibliotheque.setVisible(true);
 		bibliotheque = laBibliotheque;
-		addWindowListener
+		frmInformationsSurLaBibliotheque.addWindowListener(new WindowAdapter() {
+			 public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			        new Principale(bibliotheque);
+			    }
+		});
 	}
 
 	/**
@@ -113,59 +127,68 @@ public class InfoBiblio {
 					if(adresse.contains("'"))
 						adresse.replaceAll("'", "''");
 					
-					int nbArmoires;
-					int nbRangees;
+					int nbArmoires = 0;
+					int nbRangees = 0;
 					try {
 						nbArmoires = Integer.parseInt(((JTextField) txtNombreDarmoires).getText());
 						nbRangees = Integer.parseInt(((JTextField) txtNombreDeRangees).getText());
 					}
 					catch (Exception exception) {
 						JOptionPane.showMessageDialog(null, "Seuls les chiffres sont autorisés", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
-						break;
 					}
 					
 					if(nbRangees >= nbArmoires)
 						JOptionPane.showMessageDialog(null, "Impossible d'avoir plus de rangées que d'armoires", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
 					else if(nbArmoires >= (6*nbRangees+1))
 						JOptionPane.showMessageDialog(null, "Impossible d'avoir plus de 6 armoires par côté de rangée", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
-
+					
+					listBiblio = daoBibliotheque.findAll();
+					int numBiblio = listBiblio.size() + 1;
+					
+					listArmoire = daoArmoire.findAll();
+					
+					int numeroArmoire = listArmoire.size() + 1;
+					String lenumArmoire = String.valueOf(numeroArmoire);
 					
 					
 					
 					if(bibliotheque == null)
 					{
-						bibliotheque = new Bibliotheque(nom, adresse, nbArmoires, nbRangees);
-						int rep = DB.insererBibliotheque(bibliotheque);
-						
-						if(rep != -1)
-						{
+						bibliotheque = new Bibliotheque(numBiblio, nom, adresse, nbRangees);
+						armoire = new Armoire(numeroArmoire, "armoire" + lenumArmoire, bibliotheque);
+						try {
+							daoBibliotheque.create(bibliotheque);
+							for(int i = 0; i <= nbArmoires; i++)
+							{
+								daoArmoire.create(armoire);
+							}
 							JOptionPane.showMessageDialog(null, "La bibliothèque a bien été enregistrée", "Bibliothèque enregistrée !", JOptionPane.INFORMATION_MESSAGE);
-							bibliotheque.setId(rep);
 							new Principale(bibliotheque);
-							dispose();
-						}
-						else
-						{
+						} catch (Exception e2) {
 							JOptionPane.showMessageDialog(null, "La bibliothèque n'a pas été enregistrée, veuillez réessayer", "Erreur d'enregistrement", JOptionPane.ERROR_MESSAGE);
 							new Principale(bibliotheque);
-							dispose();
+							frmInformationsSurLaBibliotheque.dispose();
 						}
-
 					}
 					else
 					{
-						bibliotheque.setNom(nom);
+						bibliotheque.setNumBibliotheque(numBiblio);
+						bibliotheque.setNomBibliotheque(nom);
 						bibliotheque.setAdresse(adresse);
-						bibliotheque.setNbArmoires(nbArmoires);
-						bibliotheque.setNbRangees(nbRangees);
+						bibliotheque.setNombreRangees(nbRangees);
 						
-						boolean rep = DB.modifierBibliotheque(bibliotheque);
+						for(int i = 0; i <= nbArmoires; i++)
+						{
+							daoArmoire.create(armoire);
+						}
+						
+						boolean rep = daoBibliotheque.update(bibliotheque);
 						if(rep)
 							JOptionPane.showMessageDialog(null, "La bibliothèque a bien été modifiée", "Bibliothèque modifiée !", JOptionPane.INFORMATION_MESSAGE);
 						else
 							JOptionPane.showMessageDialog(null, "La bibliothèque n'a pas été modifiée, veuillez réessayer", "Erreur de modification", JOptionPane.ERROR_MESSAGE);
 						new Principale(bibliotheque);
-						dispose();
+						frmInformationsSurLaBibliotheque.dispose();
 					}
 				}
 			}

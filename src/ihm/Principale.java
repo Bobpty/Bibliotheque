@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
 
+import dao.DaoArmoire;
 import entity.Bibliotheque;
 
 public class Principale implements ActionListener{
@@ -25,6 +26,8 @@ public class Principale implements ActionListener{
 	private ArrayList<JPanel> listArmoire;
 	private JFrame frmBibliotheque;
 	Bibliotheque laBibliotheque;
+	DaoArmoire daoArmoire = new DaoArmoire();
+	
 
 	/**
 	 * Create the application.
@@ -130,8 +133,10 @@ public class Principale implements ActionListener{
 		frmBibliotheque.getContentPane().add(panelMilieu, BorderLayout.CENTER);
 		panelMilieu.setLayout(new GridLayout(0, 1, 0, 0));
 		
+		int nbreArmoire = daoArmoire.countNombreArmoires(laBibliotheque);
+		
 		JPanel rangeArmoire = null;
-		for(int i = 0; i < 20; i++)
+		for(int i = 0; i < nbreArmoire; i++)
 		{
 			if(i%6 == 0) {
 				rangeArmoire = new JPanel(new GridLayout(0, 6, 0, 0));

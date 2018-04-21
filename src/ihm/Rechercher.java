@@ -2,25 +2,54 @@ package ihm;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.WindowAdapter;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+
+import dao.DaoMedium;
+import entity.Bibliotheque;
+import entity.Medium;
 
 public class Rechercher {
 
 	private JFrame frmRechercherUnMedium;
+	private ArrayList<Medium> listMedium;
+	private Bibliotheque bibliotheque;
+	JComboBox<String> listTitre;
+	
+	private DaoMedium daoMedium = new DaoMedium();
 
 	/**
 	 * Create the application.
 	 */
-	public Rechercher() {
+	public Rechercher(Bibliotheque biblio) {
 		initialize();
 		frmRechercherUnMedium.setVisible(true);
+		this.bibliotheque = biblio;
+		frmRechercherUnMedium.addWindowListener(new WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        new Principale(bibliotheque);
+		    }
+		});
+		
+		listMedium = (ArrayList<Medium>) daoMedium.findAll();
+		
+		if(listMedium.isEmpty())
+		{
+			frmRechercherUnMedium.dispose();
+			new Principale(bibliotheque);
+			JOptionPane.showMessageDialog(null, "Il n'existe pas de medium", "Erreur !", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
@@ -39,19 +68,17 @@ public class Rechercher {
 		JLabel lblTitreMedia = new JLabel("Titre");
 		panel.add(lblTitreMedia);
 		
-		JList listMedia = new JList();
-		listMedia.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Choisir un medium"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		lblTitreMedia.setLabelFor(listMedia);
-		listMedia.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		panel.add(listMedia);
+		listMedium = (ArrayList<Medium>) daoMedium.findAll();
+		listTitre.removeAll();
+		Vector<String> vector = new Vector<>();
+		for(int i = 0; i < listMedium.size(); i++ )
+		{
+			vector.add(listMedium.get(i).getTitre());
+		}
+		
+		listTitre = new JComboBox<>(vector);
+		lblTitreMedia.setLabelFor(listTitre);
+		panel.add(listTitre);
 		
 		JPanel panel_1 = new JPanel();
 		frmRechercherUnMedium.getContentPane().add(panel_1, BorderLayout.SOUTH);
