@@ -7,23 +7,30 @@ import java.awt.event.MouseEvent;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import classes.CD;
+import classes.DVD;
+import classes.Livre;
+import classes.Media;
 import dao.DaoArmoire;
 import dao.DaoMedium;
 import entity.Armoire;
 import entity.Bibliotheque;
 import entity.Louer;
+import java.awt.event.WindowAdapter;
 
 public class InfoMedia {
 
@@ -42,14 +49,25 @@ public class InfoMedia {
 	DaoArmoire daoArmoire = new DaoArmoire();
 	DaoMedium daoMedium = new DaoMedium();
 	Bibliotheque biblio = new Bibliotheque();
+	String typeDeMedia;
 
 
 	/**
 	 * Create the application.
 	 */
-	public InfoMedia() {
+	public InfoMedia(Bibliotheque unebibliotheque, String type) {
+		typeDeMedia = type;
 		initialize();
 		frmInformationSurLeMedium.setVisible(true);
+		biblio = unebibliotheque;
+		
+		frmInformationSurLeMedium.setTitle(frmInformationSurLeMedium.getTitle() + type);
+		
+		frmInformationSurLeMedium.addWindowListener(new WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			        new Principale(unebibliotheque);
+			    }
+		});
 	}
 
 	/**
@@ -57,7 +75,7 @@ public class InfoMedia {
 	 */
 	private void initialize() {
 		frmInformationSurLeMedium = new JFrame();
-		frmInformationSurLeMedium.setTitle("Information sur le medium");
+		frmInformationSurLeMedium.setTitle("Information sur le ");
 		frmInformationSurLeMedium.setBounds(100, 100, 1055, 744);
 		frmInformationSurLeMedium.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmInformationSurLeMedium.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -206,6 +224,68 @@ public class InfoMedia {
 		btnEnregistrer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if(textFieldTitre.getText().isEmpty() || txtRealAutComp.getText().isEmpty() 
+						|| txtDuree.getText().isEmpty()|| txtPrixHt.getText().isEmpty()
+						|| txtDateParution.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null, "Il faut saisir toutes les données", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+		
+				}
+							
+				else {
+					
+					String titre = ((JTextField) textFieldTitre).getText();
+					String auteurRealInter = ((JTextField) txtRealAutComp).getText();
+					int DureeNbPagesChansons = 0;
+					float prix = 0.0f; 
+					String dateParution = ((JTextField) txtDateParution).getText();
+					int numArmoire =(int) ((JComboBox<String>)list).getSelectedItem();
+		
+					
+					if(titre.contains("'"))
+						titre.replaceAll("'", "''");
+					if(auteurRealInter.contains("'"))
+						auteurRealInter.replaceAll("'", "''");
+					if(dateParution.contains("'"))
+						dateParution.replaceAll("'", "''");
+					
+					try {
+						DureeNbPagesChansons = Integer.parseInt(((JTextField) txtDuree).getText());
+						prix = Float.parseFloat(((JTextField) txtPrixHt).getText());
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, "La valeur de la durée, du nombre de pages ou du nombre de chansons doit obligatoirement être numérique et la valeur du prix HT doit être réelle", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+						break;
+					}
+					
+					Media unMedia = null;
+					
+					switch(typeDeMedia){
+						case "CD" :
+							unMedia = new CD(titre, auteurRealInter, dateParution, prix, DureeNbPagesChansons, dureeLocation, nbChanson);
+							break;
+							
+						case "DVD" :
+							unMedia = new DVD(titre, auteurRealInter, DureeNbPagesChansons, dateParution, Prix);
+							break;
+							
+						case"Livre" :
+							unMedia = new Livre(titre, auteurRealInter, DureeNbPagesChansons, dateParution, Prix);
+							break;
+						default:
+							break;
+					}
+					if(DB.insererMedia(bibliotheque, unMedia, numArmoire))
+					{
+						JOptionPane.showMessageDialog(null, "Le "+ quelTypedeMedia +" a bien été enregistré", quelTypedeMedia +" enregistré !", JOptionPane.INFORMATION_MESSAGE);
+						new Principale(bibliotheque);
+						dispose();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Le "+ quelTypedeMedia +" n'a pas été enregistré, veuillez réessayer", "Erreur d'enregistrement", JOptionPane.ERROR_MESSAGE);
+						
+					}
+				}
 			}
 		});
 		panelTableau.add(btnEnregistrer);
