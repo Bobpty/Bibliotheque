@@ -133,7 +133,9 @@ public class DaoMedium extends Dao<Medium>
             PreparedStatement sql = connexion.prepareStatement("SELECT M.NumMedium, Titre, InterRealAuteur, Contenant, DateParution, DateStockage, Prix, DureeLocation, Type, NumArmoire "
 											            		+ "FROM medium M"
 											            		+ "WHERE M.NumMedium NOT IN (SELECT L.NumMedium"
-											            		+ "FROM louer L)");
+											            									+ "FROM louer L"
+											            									+ "WHERE DateRestitution = null"
+											            									+ "OR DateRestitution = '0000-00-00')");
             sql.execute();
             ResultSet resultat = sql.getResultSet();
 
