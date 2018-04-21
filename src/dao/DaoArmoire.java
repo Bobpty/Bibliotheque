@@ -108,6 +108,34 @@ public class DaoArmoire extends Dao<Armoire>
 
         return listeArmoires;
     }
+    
+    /**
+     * @param la bibliothèque qui contient les armoires
+     * @return le nombre d'armoire pour une bibliothèque
+     */
+    public int countNombreArmoires(Bibliotheque bibliotheque)
+    {
+    	int nombreArmoires = 0;
+    	
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT COUNT(*) AS nombre FROM Armoire WHERE NumBibliotheque = ?");
+            sql.setInt(1, bibliotheque.getNumBibliotheque());
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            if(resultat.first())
+            {
+                nombreArmoires = resultat.getInt("nombre");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return nombreArmoires;
+    }
 
     /**
      * création d'une armoire
