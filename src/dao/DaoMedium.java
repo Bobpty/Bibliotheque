@@ -102,7 +102,10 @@ public class DaoMedium extends Dao<Medium>
 
         try
         {
-            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Louer");
+            PreparedStatement sql = connexion.prepareStatement("SELECT * "
+											            		+ "FROM Louer "
+											            		+ "WHERE DateRestitution = null "
+											            		+ "OR DateRestitution = '0000-00-00'");
             sql.execute();
             ResultSet resultat = sql.getResultSet();
 
