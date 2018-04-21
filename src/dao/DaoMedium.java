@@ -17,6 +17,10 @@ public class DaoMedium extends Dao<Medium>
 {
 	DaoPersonne daoPersonne;
 	
+	/**
+	 * @param le numéro du medium recherché
+	 * @return un medium selon son numéro en paramètre
+	 */
     @Override
     public Medium find(int id)
     {
@@ -52,6 +56,9 @@ public class DaoMedium extends Dao<Medium>
         return medium;
     }
 
+    /**
+     * @return une ArrayList de tous les media enregistrés
+     */
     @Override
     public List<Medium> findAll()
     {
@@ -165,6 +172,48 @@ public class DaoMedium extends Dao<Medium>
     }
     
     /**
+     * recherche tous les media empruntés qui ne sont pas restitués à temps
+     * calcule si la date du jour est supérieure à la date de location + sa durée
+     * @return ArrayList de Media
+     */
+    public ArrayList<Medium> findAllMediaEnRetard()
+    {
+    	ArrayList<Medium> listeMediaLoues = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT M.NumMedium, Titre, InterRealAuteur, Contenant, DateParution, DateStockage, Prix, DureeLocation, Type, NumArmoire FROM medium M, louer L"
+											            		+ "WHERE M.NumMedium = L.NumMedium"
+											            		+ "AND NOW() > DATE_ADD(L.DateLocation, INTERVAL M.DureeLocation DAY); ");
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            while (resultat.next())
+            {
+            	Medium medium = new Medium(resultat.getInt("NumMedium"),
+					                        resultat.getString("Titre"),
+					                        resultat.getString("InterRealAuteur"),
+					                        resultat.getInt("Contenant"),
+					                        resultat.getDate("DateParution"),
+					                        resultat.getDate("DateStockage"),
+					                        resultat.getFloat("Prix"),
+					                        resultat.getInt("DureeLocation"),
+					                        resultat.getString("Type"),
+					                        new DaoArmoire().find(resultat.getInt("NumArmoire")));
+
+            	listeMediaLoues.add(medium);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return listeMediaLoues;
+    }
+    
+    /**
      * recherche tous les media par type
      * @param type de medium (CD, DVD ou Livre)
      * @return ArrayListe de tous les média du type
@@ -204,6 +253,9 @@ public class DaoMedium extends Dao<Medium>
         return listeMedia;
     }
 
+    /**
+     * création d'un medium
+     */
     @Override
     public Medium create(Medium medium)
     {
@@ -238,6 +290,9 @@ public class DaoMedium extends Dao<Medium>
         return medium;
     }
 
+    /**
+     * mise à jour d'un medium
+     */
     @Override
     public boolean update(Medium medium)
     {
@@ -276,6 +331,9 @@ public class DaoMedium extends Dao<Medium>
         return true;
     }
 
+    /**
+     * suppression d'un medium
+     */
     @Override
     public boolean delete(Medium medium)
     {

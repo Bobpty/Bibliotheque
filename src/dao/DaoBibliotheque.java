@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class DaoBibliotheque extends Dao<Bibliotheque>
 {
+	/**
+	 * @param le numéro de la bibliothèque recherchée
+	 * @return une bibliothèque selon son numéro en paramètre
+	 */
     @Override
     public Bibliotheque find(int id)
     {
@@ -39,6 +43,10 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
         return bibliotheque;
     }
     
+    /**
+     * @param le nom de la bibliothèque recherchée
+     * @return une bibliothèque selon son nom
+     */
     public Bibliotheque findByNom(String nom)
     {
         Bibliotheque bibliotheque = null;
@@ -67,6 +75,9 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
         return bibliotheque;
     }
 
+    /**
+     * @return une ArrayList de toutes les bibliothèques enregistrées
+     */
     @Override
     public ArrayList<Bibliotheque> findAll()
     {
@@ -97,6 +108,9 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
         return listeBibliotheques;
     }
 
+    /**
+     * création d'une bibliothèque
+     */
     @Override
     public Bibliotheque create(Bibliotheque bibliotheque)
     {
@@ -125,6 +139,9 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
         return bibliotheque;
     }
 
+    /**
+     * modification d'une bibliothèque
+     */
     @Override
     public boolean update(Bibliotheque bibliotheque)
     {
@@ -151,6 +168,9 @@ public class DaoBibliotheque extends Dao<Bibliotheque>
         return true;
     }
 
+    /**
+     * suppression d'une bibliothèque
+     */
     @Override
     public boolean delete(Bibliotheque bibliotheque)
     {

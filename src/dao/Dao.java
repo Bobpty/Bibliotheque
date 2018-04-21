@@ -12,34 +12,34 @@ public abstract class Dao<T>
     /**
      * Cherche un objet T avec un identifiant id.
      * @param id l'identifiant de l'objet T cherchÃ©
-     * @return T l'objet T ou null si celui-ci n'est pas trouvÃ© ou si une erreur est survenue
+     * @return T l'objet T ou null si celui-ci n'est pas trouvé ou si une erreur est survenue
      */
     public abstract T find(int id);
 
     /**
-     * Retourne tous Ã©lÃ©ments de la table
-     * @return liste contenant tous les Ã©lÃ©ments
+     * Retourne tous éléments de la table
+     * @return liste contenant tous les éléments
      */
     public abstract List<T> findAll();
 
     /**
-     * InsÃ¨re l'objet obj dans la db
+     * Insère l'objet obj dans la db
      * @param obj l'objet que l'on souhaite persister
-     * @return T l'objet T insÃ©rÃ© dans la db ou null si celui-ci n'est pas trouvÃ©
+     * @return T l'objet T inséré dans la db ou null si celui-ci n'est pas trouvé
      */
     public abstract T create(T obj);
 
     /**
-     * Met Ã  jour l'obj obj dans la db
-     * @param obj qui sera mis Ã  jour
-     * @return un boolÃ©en indiquant true si la requÃªte s'est bien exÃ©cutÃ©e, false sinon
+     * Met à jour l'obj obj dans la db
+     * @param obj qui sera mis à jour
+     * @return un booléen indiquant true si la requête s'est bien exécutée, false sinon
      */
     public abstract boolean update(T obj);
 
     /**
-     * Supprime l'objet obj de la db en le sÃ©lectionnant via son id
+     * Supprime l'objet obj de la db en le sélectionnant via son id
      * @param obj l'objet que l'on souhaite supprimer de la db
-     * @return un boolÃ©en indiquant true si la requÃªte s'est bien exÃ©cutÃ©e, false sinon
+     * @return un booléen indiquant true si la requête s'est bien exécutée, false sinon
      */
     public abstract boolean delete(T obj);
 }

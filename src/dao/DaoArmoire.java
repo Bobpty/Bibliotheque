@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public class DaoArmoire extends Dao<Armoire>
 {
+	/**
+	 * @param le numéro de l'armoire recherchée
+	 * @return une armoire selon son numéro en paramètre
+	 */
     @Override
     public Armoire find(int id)
     {
@@ -39,6 +43,11 @@ public class DaoArmoire extends Dao<Armoire>
         return armoire;
     }
     
+    /**
+     * méthode qui recherchent les armoires dans une bibliothèque
+     * @param bibliotheque qui contient les armoires
+     * @return une ArrayList des armoires dans la bibliothèque
+     */
     public ArrayList<Armoire> findArmoiresParBibliotheque(Bibliotheque bibliotheque)
     {
     	ArrayList<Armoire> listeNumArmoire = new ArrayList<>();
@@ -68,6 +77,9 @@ public class DaoArmoire extends Dao<Armoire>
     	return listeNumArmoire;
     }
 
+    /**
+     * @return une ArrayList de toutes les armoires enregistrées
+     */
     @Override
     public ArrayList<Armoire> findAll()
     {
@@ -97,6 +109,9 @@ public class DaoArmoire extends Dao<Armoire>
         return listeArmoires;
     }
 
+    /**
+     * création d'une armoire
+     */
     @Override
     public Armoire create(Armoire armoire)
     {
@@ -124,6 +139,9 @@ public class DaoArmoire extends Dao<Armoire>
         return armoire;
     }
 
+    /**
+     * mise à jour d'une armoire
+     */
     @Override
     public boolean update(Armoire armoire)
     {
@@ -148,6 +166,9 @@ public class DaoArmoire extends Dao<Armoire>
         return true;
     }
 
+    /**
+     * suppression d'une armoire
+     */
     @Override
     public boolean delete(Armoire armoire)
     {

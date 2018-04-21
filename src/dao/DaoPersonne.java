@@ -11,6 +11,10 @@ import java.util.List;
 
 public class DaoPersonne extends Dao<Personne>
 {
+	/**
+	 * @param l'identifiant de la personne recherchée
+	 * @return une personne selon son identifiant en paramètre
+	 */
     @Override
     public Personne find(int id)
     {
@@ -41,6 +45,9 @@ public class DaoPersonne extends Dao<Personne>
         return personne;
     }
 
+    /**
+     * @return une ArrayList de toutes les personnes enregistrées
+     */
     @Override
     public List<Personne> findAll()
     {
@@ -72,6 +79,9 @@ public class DaoPersonne extends Dao<Personne>
         return listePersonnes;
     }
 
+    /**
+     * création d'une personne
+     */
     @Override
     public Personne create(Personne personne)
     {
@@ -101,6 +111,9 @@ public class DaoPersonne extends Dao<Personne>
         return personne;
     }
 
+    /**
+     * modification d'une personne
+     */
     @Override
     public boolean update(Personne personne)
     {
@@ -128,6 +141,9 @@ public class DaoPersonne extends Dao<Personne>
         return true;
     }
 
+    /**
+     * suppression d'une personne
+     */
     @Override
     public boolean delete(Personne personne)
     {
