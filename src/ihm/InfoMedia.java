@@ -4,14 +4,10 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
+import java.awt.event.WindowAdapter;
 import java.text.Format;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -25,18 +21,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import classes.CD;
-import classes.DVD;
-import classes.Livre;
-import classes.Media;
 import dao.DaoArmoire;
 import dao.DaoMedium;
 import entity.Armoire;
 import entity.Bibliotheque;
 import entity.Louer;
 import entity.Medium;
-
-import java.awt.event.WindowAdapter;
 
 public class InfoMedia {
 

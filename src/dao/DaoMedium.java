@@ -135,7 +135,7 @@ public class DaoMedium extends Dao<Medium>
      */
     public ArrayList<Medium> findAllMediaDisponibles()
     {
-    	ArrayList<Medium> listeMediaLoues = new ArrayList<>();
+    	ArrayList<Medium> listeMediaDisponibles = new ArrayList<>();
 
         try
         {
@@ -161,7 +161,7 @@ public class DaoMedium extends Dao<Medium>
 					                        resultat.getString("Type"),
 					                        new DaoArmoire().find(resultat.getInt("NumArmoire")));
 
-            	listeMediaLoues.add(medium);
+            	listeMediaDisponibles.add(medium);
             }
         }
         catch (SQLException e)
@@ -170,7 +170,7 @@ public class DaoMedium extends Dao<Medium>
             return null;
         }
 
-        return listeMediaLoues;
+        return listeMediaDisponibles;
     }
     
     /**

@@ -189,7 +189,7 @@ public class Principale implements ActionListener{
 			
 		case "RechercherMedium":
 			frmBibliotheque.dispose();
-			new Rechercher();
+			new Rechercher(laBibliotheque);
 			break;
 		case "inventaire":
 			frmBibliotheque.dispose();
