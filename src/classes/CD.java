@@ -6,7 +6,6 @@ public class CD extends Media
 {
 	private int nbChanson;
 	
-	
 	public CD(String titreMedia, String realAutInt, Date dateParution, float prixHT, int dureeLocation,int unNbChanson)
 	{
 		super(titreMedia, realAutInt, dateParution, prixHT, dureeLocation);
