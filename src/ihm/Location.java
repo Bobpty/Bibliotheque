@@ -11,13 +11,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import dao.DaoMedium;
+import dao.DaoPersonne;
+import entity.Louer;
 import entity.Medium;
+import entity.Personne;
 
 public class Location {
 
@@ -27,9 +31,12 @@ public class Location {
 	private JTextField txtEmail;
 	private JTextField txtDateDeLocation;
 	private JTextField txtDateDeRestitution;
+	private Medium leMedium = null;
+	private Personne leLoueur = null;
 	ArrayList<Medium> listMedia = new ArrayList<Medium>();
 	DaoMedium daoMedium = new DaoMedium();
-	JComboBox<String> listTitre;
+	DaoPersonne daoPersonne = new DaoPersonne();
+	JComboBox<String> listTitre = new JComboBox<>();
 	/**
 	 * Create the application.
 	 */
@@ -55,7 +62,7 @@ public class Location {
 		lblTitre.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(lblTitre);
 		
-		listMedia = (ArrayList<Medium>) daoMedium.findAll();
+		listMedia = daoMedium.findAllMediaEmpruntes();
 		listTitre.removeAll();
 		Vector<String> vector = new Vector<>();
 		for(int i = 0; i < listMedia.size(); i++ )
@@ -127,6 +134,32 @@ public class Location {
 		btnEnregistrer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(txtDateDeLocation.getText().isEmpty() || txtEmail.getText().isEmpty() || txtNomDuLoueur.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null, "Il faut saisir toutes les données", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					String medium = lblTitre.getText();
+					String commentaire = txtrCommentaire.getText();
+					String adresse = txtAdresse.getText();
+					String dateLocation = txtDateDeLocation.getText();
+					String dateRestitution = txtDateDeRestitution.getText();
+					String email = txtEmail.getText();
+					String loueur = txtNomDuLoueur.getText();
+					
+					//leMedium = DaoMedium.findByNom(medium);
+					//leLoueur = DaoPersonne.findByNom(loueur);
+					
+					if (dateRestitution == "" && commentaire == "")
+					{
+						daoMedium.emprunter(leLoueur, leMedium, dateLocation);
+					}
+					else
+					{
+						daoMedium.restituer(leLoueur, leMedium, dateRestitution, commentaire);
+					}
+				}
 			}
 		});
 		panel.add(btnEnregistrer);

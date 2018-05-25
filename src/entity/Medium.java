@@ -27,7 +27,20 @@ public class Medium
         this.setArmoire(armoire);
     }
 
-    public int getNumMedia()
+    public Medium(String titre2, String auteurRealInter, int dureeNbPagesChansons, String dateParution2,
+			String dateStockage2, float prix2, int dureeDeLocation, String type2, Armoire armoire) {
+         Titre = titre2;
+         interRealAuteur = auteurRealInter;
+         contenant = dureeNbPagesChansons;
+         dateParution = dateParution2;
+         dateStockage = dateStockage2;
+         prix = prix2;
+         dureeLocation = dureeDeLocation;
+         type = type2;
+         setArmoire(armoire);
+	}
+
+	public int getNumMedia()
     {
         return numMedia;
     }

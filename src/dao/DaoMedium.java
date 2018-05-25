@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.Bibliotheque;
 import entity.Louer;
 import entity.Medium;
 import entity.Personne;
@@ -54,6 +55,44 @@ public class DaoMedium extends Dao<Medium>
 
         return medium;
     }
+    
+    /**
+     * recherche le medium correspondant au nom
+     * @param le nom du medium cible
+     * @return Le medium recherché
+     */
+    public Medium findByNom(String nomMedium)
+    {
+    	Medium medium = null;
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Medium WHERE Titre = ?");
+            sql.setString(1, nomMedium);
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            if (resultat.first())
+            {
+                medium = new Medium(resultat.getInt("NumMedium"),
+                        resultat.getString("Titre"),
+                        resultat.getString("InterRealAuteur"),
+                        resultat.getInt("Contenant"),
+                        resultat.getString("DateParution"),
+                        resultat.getString("DateStockage"),
+                        resultat.getFloat("Prix"),
+                        resultat.getInt("DureeLocation"),
+                        resultat.getString("Type"),
+                        new DaoArmoire().find(resultat.getInt("NumArmoire")));
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return medium;
+    }
 
     /**
      * @return une ArrayList de tous les media enregistrés
@@ -93,18 +132,63 @@ public class DaoMedium extends Dao<Medium>
         return listeMedia;
     }
 
+    
     /**
      * @return ArrayList de tous les média empruntés
      */
-    public ArrayList<Louer> findAllMediaEmpruntes()
+    public ArrayList<Medium> findAllMediaEmpruntes()
+    {
+        ArrayList<Medium> listeMediaLoues = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT * "
+											            		+ "FROM louer L, medium M "
+											            		+ "WHERE L.NumMedium = M.NumMedium "
+											            		+ "AND (DateRestitution = NULL "
+											            		+ "OR DateRestitution = '0000-00-00')");
+            
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            while (resultat.next())
+            {
+                Medium location = new Medium(resultat.getInt("NumMedium"),
+					                        resultat.getString("Titre"),
+					                        resultat.getString("InterRealAuteur"),
+					                        resultat.getInt("Contenant"),
+					                        resultat.getString("DateParution"),
+					                        resultat.getString("DateStockage"),
+					                        resultat.getFloat("Prix"),
+					                        resultat.getInt("DureeLocation"),
+					                        resultat.getString("Type"),
+					                        new DaoArmoire().find(resultat.getInt("NumArmoire")));
+
+                listeMediaLoues.add(location);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return listeMediaLoues;
+    }
+    
+    
+    /**
+     * @return ArrayList de tous les média empruntés
+     */
+    public ArrayList<Louer> findAllLocationEmpruntes()
     {
         ArrayList<Louer> listeMediaLoues = new ArrayList<>();
 
         try
         {
-            PreparedStatement sql = connexion.prepareStatement("SELECT * "
-											            		+ "FROM Louer "
-											            		+ "WHERE DateRestitution = null "
+            PreparedStatement sql = connexion.prepareStatement("SELECT DateLocation, DateRestitution, Commentaire, IDpersonne, L.NumMedium "
+											            		+ "FROM louer L "
+											            		+ "WHERE DateRestitution = NULL "
 											            		+ "OR DateRestitution = '0000-00-00'");
             sql.execute();
             ResultSet resultat = sql.getResultSet();
@@ -294,6 +378,50 @@ public class DaoMedium extends Dao<Medium>
 
         return listeMedia;
     }
+    
+    /**
+     * recherche tous les media par bibliothèque
+     * @param la bibliothèque de référence
+     * @return ArrayListe de tous les média de la bibliothèque
+     */
+    public List<Medium> findByBibliotheque(Bibliotheque bibliotheque)
+    {
+        ArrayList<Medium> listeMedia = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT NumMedium, Titre, InterRealAuteur, Contenant, DateParution, DateStockage, Prix, DureeLocation, Type, M.NumArmoire "
+            													+ "FROM medium M, armoire A, bibliotheque B "
+            													+ "WHERE M.NumArmoire = A.NumArmoire "
+            													+ "AND A.NumBibliotheque = B.NumBibliotheque "
+            													+ "AND B.NumBibliotheque = ?");
+            sql.setInt(1, bibliotheque.getNumBibliotheque());
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            while (resultat.next())
+            {
+                Medium medium = new Medium(resultat.getInt("NumMedium"),
+                        resultat.getString("Titre"),
+                        resultat.getString("InterRealAuteur"),
+                        resultat.getInt("Contenant"),
+                        resultat.getString("DateParution"),
+                        resultat.getString("DateStockage"),
+                        resultat.getFloat("Prix"),
+                        resultat.getInt("DureeLocation"),
+                        resultat.getString("Type"),
+                        new DaoArmoire().find(resultat.getInt("NumArmoire")));
+
+                listeMedia.add(medium);
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return listeMedia;
+    }
 
     /**
      * création d'un medium
@@ -304,7 +432,7 @@ public class DaoMedium extends Dao<Medium>
         try
         {
             PreparedStatement sql = connexion.prepareStatement("INSERT INTO Armoire (Titre, InterRealAuteur, Contenant, DateParution, DateStockage, Prix, DureeLocation, Type, NumArmoire) " +
-                                                                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                                                                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             int i = 1; //Permet d'itÃ©rer plus facilement sur chacun des paramÃ¨tres
             sql.setString(i++, medium.getTitre());

@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,21 +20,23 @@ import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
 
 import dao.DaoArmoire;
+import dao.DaoMedium;
 import entity.Bibliotheque;
+import entity.Medium;
 
 public class Principale implements ActionListener{
 	
-	private ArrayList<JPanel> listArmoire;
 	private JFrame frmBibliotheque;
+	private ArrayList<Medium> listMedium = new ArrayList<Medium>();
 	Bibliotheque laBibliotheque;
 	DaoArmoire daoArmoire = new DaoArmoire();
+	DaoMedium daoMedium = new DaoMedium();
 	
 
 	/**
 	 * Create the application.
 	 */
 	public Principale() {
-		listArmoire = new ArrayList<>();
 		laBibliotheque = null;
 		initialize();
 		frmBibliotheque.setVisible(true);
@@ -41,7 +44,6 @@ public class Principale implements ActionListener{
 	
 	public Principale(Bibliotheque laBiblio)
 	{
-		listArmoire = new ArrayList<>();
 		laBibliotheque = laBiblio;
 		initialize();
 		frmBibliotheque.setVisible(true);	
@@ -138,17 +140,27 @@ public class Principale implements ActionListener{
 			int nbreArmoire = daoArmoire.countNombreArmoires(laBibliotheque);
 		
 			JPanel rangeArmoire = null;
+			JLabel nomMedia = null;
+			listMedium = (ArrayList<Medium>) daoMedium.findByBibliotheque(laBibliotheque);
+			int nombreMedia = listMedium.size();
 			for(int i = 0; i < nbreArmoire; i++)
 			{
-				if(i%6 == 0) {
-					rangeArmoire = new JPanel(new GridLayout(0, 6, 0, 0));
-					rangeArmoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					panelMilieu.add(rangeArmoire);
+				for (int j = 0; j < nombreMedia; j++) {
+				
+
+					if(i%6 == 0) {
+						rangeArmoire = new JPanel(new GridLayout(0, 6, 0, 0));
+						rangeArmoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+						panelMilieu.add(rangeArmoire);
+						nomMedia = new JLabel(listMedium.get(j).getTitre());
+						rangeArmoire.add(nomMedia);
+					}
+					JPanel armoire = new JPanel(new GridLayout(3, 1));
+					armoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					rangeArmoire.add(armoire);
+					nomMedia = new JLabel(listMedium.get(j).getTitre());
+					armoire.add(nomMedia);
 				}
-				JPanel armoire = new JPanel(new GridLayout(3, 1));
-				armoire.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				rangeArmoire.add(armoire);
-				listArmoire.add(armoire);
 			}
 		}
 	}

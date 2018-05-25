@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 
 import dao.DaoArmoire;
 import dao.DaoMedium;
-import entity.Armoire;
 import entity.Bibliotheque;
 import entity.Medium;
 
@@ -25,7 +24,6 @@ public class Rechercher {
 
 	private JFrame frmRechercherUnMedium;
 	private ArrayList<Medium> listMedium;
-	private ArrayList<Armoire> listArmoire;
 	private Bibliotheque bibliotheque;
 	JComboBox<String> listTitre;
 	DaoArmoire daoArmoire = new DaoArmoire();

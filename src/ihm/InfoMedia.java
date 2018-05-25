@@ -1,6 +1,7 @@
 package ihm;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -79,6 +80,7 @@ public class InfoMedia {
 		JPanel panel = new JPanel();
 		scrollPaneHaut.setViewportView(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel.setPreferredSize(new Dimension(450, 450));
 		
 		JPanel panelTitre = new JPanel();
 		panel.add(panelTitre);
@@ -191,7 +193,7 @@ public class InfoMedia {
 		JLabel lblLocations = new JLabel("Locations:");
 		panelTableau.add(lblLocations);
 		
-		listLocation = (ArrayList<Louer>) daoMedium.findAllMediaEmpruntes();
+		listLocation = (ArrayList<Louer>) daoMedium.findAllLocationEmpruntes();
 		String  donnees[][] = new String[listLocation.size()][5];
 		
 		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -240,11 +242,10 @@ public class InfoMedia {
 					
 					dateParution = ((JTextField) txtDateParution).getText();
 					
-					int numArmoire = (int) ((JComboBox<String>)list).getSelectedItem();
+					String recup = (String) ((JComboBox<String>)list).getSelectedItem();
+					int numArmoire = Integer.valueOf(recup);
 					listMedium = (ArrayList<Medium>) daoMedium.findAll();
-					int numMedia = listMedium.size() + 1;
-					int lastArmoire = listArmoire.size() + 1;
-					Armoire uneArmoire = new Armoire(numArmoire, "armoire" + String.valueOf(lastArmoire), biblio);
+
 					if(titre.contains("'"))
 						titre.replaceAll("'", "''");
 					if(auteurRealInter.contains("'"))
@@ -260,9 +261,10 @@ public class InfoMedia {
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(null, "La valeur de la durée, du nombre de pages ou du nombre de chansons doit obligatoirement être numérique et la valeur du prix HT doit être réelle", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
 					}
-					
-					Medium unMedia = new Medium(numMedia, titre, auteurRealInter, DureeNbPagesChansons, dateParution, dateStockage, prix, dureeDeLocation, type, uneArmoire);
+					Armoire armoire = daoArmoire.find(numArmoire);
+					Medium unMedia = new Medium(titre, auteurRealInter, DureeNbPagesChansons, dateParution, dateStockage, prix, dureeDeLocation, type, armoire);
 						try {
+							
 							daoMedium.create(unMedia);
 							JOptionPane.showMessageDialog(null, "Le "+ type +" a bien été enregistré", type +" enregistré !", JOptionPane.INFORMATION_MESSAGE);
 							new Principale(biblio);

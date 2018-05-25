@@ -22,7 +22,7 @@ public class DaoPersonne extends Dao<Personne>
 
         try
         {
-            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Personne WHERE id= ?");
+            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Personne WHERE IDpersonne = ?");
             sql.setInt(1, id);
             sql.execute();
             ResultSet resultat = sql.getResultSet();
@@ -45,6 +45,40 @@ public class DaoPersonne extends Dao<Personne>
         return personne;
     }
 
+    /**
+     * Retourne une personne par son nom
+     * @param le nom de la personne
+     * @return la personne recherchée
+     */
+	public Personne findByNom(String nomLoueur)
+	{
+		Personne personne = null;
+
+        try
+        {
+            PreparedStatement sql = connexion.prepareStatement("SELECT * FROM Personne WHERE Nom = ?");
+            sql.setString(1, nomLoueur);
+            sql.execute();
+            ResultSet resultat = sql.getResultSet();
+
+            if(resultat.first())
+            {
+                personne = new Personne(resultat.getInt("IDpersonne"),
+                                        resultat.getString("Nom"),
+                                        resultat.getString("Prenom"),
+                                        resultat.getString("Adresse"),
+                                        resultat.getString("Mail"));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return personne;
+	}
+    
     /**
      * @return une ArrayList de toutes les personnes enregistrées
      */

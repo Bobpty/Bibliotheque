@@ -36,8 +36,6 @@ public class InfoBiblio {
 	DaoArmoire daoArmoire = new DaoArmoire();
 	Bibliotheque bibliotheque;
 	Armoire armoire;
-	
-
 
 	/**
 	 * Create the application.
